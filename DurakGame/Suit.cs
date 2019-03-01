@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DurakGame
 {
-    public class Class1
+    public enum Suit
     {
+        Clubs,
+        Hearts,
+        Diamonds,
+        Spades
     }
 }
