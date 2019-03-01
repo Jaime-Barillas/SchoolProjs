@@ -1,0 +1,45 @@
+<!--------------------------------- Markdeep: --------------------------------->
+<meta content="charset=utf-8"/>
+
+
+  **OOP 4200 Durak**
+
+## Card Skins
+
+Durak provides the ability to customize the textures for the cards in the game.  
+The skin packs are located in the `assets/textures/cardskins` folder within the
+game directory. Each skin pack is a sub-folder within the aforementioned directory
+that is named after the skin pack.
+
+> For example, a set of card skins called `Big Numbers` will have a its folder
+> named `Big_Numbers` (spaces are replaced by underscores) and have a directory
+> structure as such:
+>
+> `<path-to-game-dir>/assets/textures/cardskins/Big_Numbers/<texture-files>`
+
+The textures themselves are either PNGs or JPEGs. One texture exists for each
+card plus an additional texture for the backside of all cards. The textures are
+named as follows:
+
+`<lower-case-suit>_<rank>.(png | jpg)`
+
+For example:
+
++ `spade_ace.png`
++ `diamond_8.jpg`
++ `heart_king.jpg`
++ `club_6.png`
+
+### Creating Custom Card Skins
+
+Creating custom skin packs is simple. Simply copy one of the existing skin packs
+renaming the folder to the name of your new skin pack. Then, open up the folder
+and edit the textures within in your preferred image editor. When you launch
+Durak you will be able to choose your newly created skin pack in the `options`
+menu.
+
+<!--------------------------------- Markdeep: --------------------------------->
+<link rel="stylesheet" type="text/css" href="lab-plan.css"/>
+<style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style>
+<script src="markdeep.min.js" charset="utf-8"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
