@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// Represents a standard playing card
+    /// </summary>
     public class Card
     {
         // Properties
@@ -79,6 +82,15 @@ namespace DurakGame
             }
 
             return canDefend;
+        }
+
+        /// <summary>
+        /// Retrieves card name as string.
+        /// </summary>
+        /// <returns>The card's name.</returns>
+        public override string ToString()
+        {
+            return this.Rank + " of " + this.Suit;
         }
     }
 }
