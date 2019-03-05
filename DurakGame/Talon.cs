@@ -38,6 +38,7 @@ namespace DurakGame
         {
             get
             {
+                // Returns size of the deck, +1 if the trump hasn't been drawn yet.
                 return deck.Size + (isTrumpDrawn ? 0 : 1);
             }
         }
@@ -52,6 +53,12 @@ namespace DurakGame
             this.deck = deck;
             this.Trump = this.deck.Draw();
         }
+
+        /// <summary>
+        /// Alternate parameterized constructor. Creates a talon based on a deck preset.
+        /// </summary>
+        /// <param name="preset">The deck preset to be created and used as a talon.</param>
+        public Talon(Deck.Preset preset) : this(new Deck(preset)) { }
 
         /// <summary>
         /// Default constructor. Uses a default (36-card) deck to create the talon.
