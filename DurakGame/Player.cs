@@ -61,10 +61,7 @@ namespace DurakGame
         /// <param name="newCards">Array of cards to add.</param>
         public void TakeCards(Card[] newCards)
         {
-            foreach(Card card in newCards)
-            {
-                Hand.AddRange(newCards);
-            }
+            Hand.AddRange(newCards);
         }
 
         /// <summary>
