@@ -13,23 +13,16 @@ namespace DurakGame
     {
         // Properties
         private Deck deck;
+
         /// <summary>
         /// Trump card revealed at the start of the game.
         /// </summary>
         public Card Trump { get; }
 
-        private bool isTrumpDrawn = false;
-
         /// <summary>
-        /// The suit of the trump revealed at the start of the game.
+        /// Flag representing whether the trump (final) card has been drawn.
         /// </summary>
-        public Suit TrumpSuit
-        {
-            get
-            {
-                return Trump.Suit;
-            }
-        }
+        private bool isTrumpDrawn = false;
 
         /// <summary>
         /// Number of cards remaining in the talon.

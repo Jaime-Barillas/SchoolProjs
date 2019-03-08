@@ -76,7 +76,7 @@ namespace DurakGame
                 Card defense;
 
                 Console.WriteLine("\n===\nDefending against: " + attack);
-                Console.WriteLine("Trump suit is " + talon.TrumpSuit);
+                Console.WriteLine("Trump suit is " + talon.Trump.Suit);
 
                 Console.WriteLine("Your hand: ");
                 for (int index = 0; index < hand.Count; index++)
@@ -89,7 +89,7 @@ namespace DurakGame
                 // Player selects a card
                 defense = hand[int.Parse(Console.ReadLine())];
 
-                if (defense.CanDefendAgainst(attack, talon.TrumpSuit))
+                if (defense.CanDefendAgainst(attack, talon.Trump.Suit))
                 {
                     Console.WriteLine("+ Defended successfully. Defense card has been shed from your hand.");
                     hand.Remove(defense);
