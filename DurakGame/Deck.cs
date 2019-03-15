@@ -11,8 +11,7 @@ namespace DurakGame
     /// </summary>
     public class Deck
     {
-        // Embedded types
-
+        #region Embedded types
         /// <summary>
         /// Identifiers for deck presets to be passed to the constructor, in place of a Rank array.
         /// </summary>
@@ -31,9 +30,10 @@ namespace DurakGame
             /// </summary>
             SmallDeck,
         }
-        
-        // Properties
 
+        #endregion
+
+        #region Properties
         private List<Card> cards = new List<Card>();
 
         /// <summary>
@@ -47,8 +47,9 @@ namespace DurakGame
             }
         }
 
-        // Constructors
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Parameterized constructor. Creates a deck of cards based on rank.
         /// </summary>
@@ -79,8 +80,9 @@ namespace DurakGame
         /// </summary>
         public Deck() : this(Preset.DurakStandard) { }
 
-        // Methods
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Conversion method for turning deck presets into rank arrays. Used by parameterized constructor.
         /// </summary>
@@ -165,8 +167,10 @@ namespace DurakGame
             }
             else
             {
-                throw new InvalidOperationException("Deck is empty.");
+                throw new InvalidOperationException("Cannot draw from empty deck.");
             }
         }
+
+        #endregion
     }
 }

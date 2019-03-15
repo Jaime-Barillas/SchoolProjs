@@ -11,19 +11,23 @@ namespace DurakGame
     /// </summary>
     public class Card
     {
-        // Properties
+        #region Properties
         public Rank Rank { get; private set; }
+
         public Suit Suit { get; private set; }
 
-        // Constructors
+        #endregion
+
+        #region Constructors
         public Card(Rank rank, Suit suit)
         {
             this.Rank = rank;
             this.Suit = suit;
         }
 
-        // Methods
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Determines whether a card may be used to defend against an attack.
         /// </summary>
@@ -92,5 +96,7 @@ namespace DurakGame
         {
             return this.Rank + " of " + this.Suit;
         }
+
+        #endregion
     }
 }

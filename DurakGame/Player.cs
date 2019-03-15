@@ -11,7 +11,7 @@ namespace DurakGame
     /// </summary>
     public abstract class Player
     {
-        // Properties
+        #region Properties
         /// <summary>
         /// Whether the player is still in the game. A player ceases to be active when they shed all of their cards.
         /// </summary>
@@ -27,15 +27,27 @@ namespace DurakGame
         /// </summary>
         public List<Card> Hand { get; }
 
-        // Events
+        #endregion
+
+        #region Events
         /// <summary>
         /// Fired when the player sheds the last card from their hand.
         /// </summary>
         public event EventHandler<GameLogEventArgs> HandEmpty;
+
+        /// <summary>
+        /// Fired when the player plays a card as attacker.
+        /// </summary>
         public event EventHandler<GameLogEventArgs> Attack;
+
+        /// <summary>
+        /// Fired when the player plays a card as defender.
+        /// </summary>
         public event EventHandler<GameLogEventArgs> Defend;
 
-        // Constructors
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Default constructor. Instantiates a new Player object.
         /// </summary
@@ -45,7 +57,9 @@ namespace DurakGame
             Name = name;
         }
 
-        // Methods
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Adds a card to the player's hand.
         /// </summary>
@@ -140,6 +154,6 @@ namespace DurakGame
             }
         }
 
-        
+        #endregion
     }
 }
