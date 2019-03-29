@@ -26,6 +26,8 @@ namespace Durak
             btnExit.MouseLeave     += MouseLeaveTextColour;
             btnMainMenu.MouseEnter += MouseEnterTextColour;
             btnMainMenu.MouseLeave += MouseLeaveTextColour;
+            btnHelp.MouseEnter     += MouseEnterTextColour;
+            btnHelp.MouseLeave     += MouseLeaveTextColour;
         }
 
         /// <summary>
@@ -84,6 +86,15 @@ namespace Durak
         {
             tlpOptionMenu.Hide();
             tlpMainMenu.Show();
+        }
+
+        /// <summary>
+        /// Load the help files in an external web browser.
+        /// </summary>
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            string documentationFile = System.IO.Path.GetFullPath("../../../docs/user-documentation.md.html");
+            System.Diagnostics.Process.Start(documentationFile);
         }
     }
 }
