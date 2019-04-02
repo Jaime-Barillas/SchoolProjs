@@ -42,7 +42,7 @@ namespace DurakGame
         /// <summary>
         /// Fires when the last card is drawn from the talon.
         /// </summary>
-        public event EventHandler<GameLogEventArgs> TalonEmpty;
+        public event EventHandler<GameLogEventArgs> Empty;
 
         #endregion
 
@@ -95,7 +95,7 @@ namespace DurakGame
                 {
                     IsEmpty = true;
                     // Fire an event signaling that the final card was drawn.
-                    TalonEmpty?.Invoke(this, new GameLogEventArgs("The last card has been drawn from the talon. The talon is now empty."));
+                    Empty?.Invoke(this, new GameLogEventArgs("The last card has been drawn from the talon. The talon is now empty."));
                     return Trump;
                 }
                 // If the trump card is gone too, this deck shouldn't be drawn from.

@@ -41,14 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIPlayer.cs" />
+    <Compile Include="Bout.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameActionEventArgs.cs" />
     <Compile Include="GameLogEventArgs.cs" />
     <Compile Include="Deck.cs" />
+    <Compile Include="HumanPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Rank.cs" />
+    <Compile Include="SimpleAIPlayer.cs" />
     <Compile Include="Suit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Talon.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DurakGameLibClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
