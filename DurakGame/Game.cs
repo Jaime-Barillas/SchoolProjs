@@ -43,6 +43,11 @@ namespace DurakGame
         public Player Fool { get; private set; } = null;
 
         /// <summary>
+        /// Flag representing whether the game has ended.
+        /// </summary>
+        public bool IsOver { get; private set; } = false;
+
+        /// <summary>
         /// The minimum hand size a player must draw up to (unless the talon is empty).
         /// </summary>
         public static int MINIMUM_HAND_SIZE = 6;
@@ -56,6 +61,7 @@ namespace DurakGame
         public event EventHandler<GameLogEventArgs> End;
         protected virtual void OnEnd(GameLogEventArgs l)
         {
+            this.IsOver = true;
             End?.Invoke(this, l);
         }
 

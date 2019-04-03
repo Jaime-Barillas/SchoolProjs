@@ -169,12 +169,12 @@ namespace DurakGame
             // Create new game with two simple AI players
             Game theGame = new Game(new Deck(), new List<Player> { new SimpleAIPlayer("AI Player 1"), new SimpleAIPlayer("AI Player 2") });
 
-            bool gameOver = false;  // Flag for determining when the game has ended.
+            //bool gameOver = false;  // Flag for determining when the game has ended.
             /* 
              * Subscribe event handlers to all relevant events
              */
             // NOTE: these delegates are very ugly, and in actual code we should always be using actual declared methods.
-            theGame.End += delegate (object sender, GameLogEventArgs e) { gameOver = true; };
+            //theGame.End += delegate (object sender, GameLogEventArgs e) { gameOver = true; };
             theGame.End += _SpitToOutput;
             theGame.NewBout += _SpitToOutput;
 
@@ -245,7 +245,7 @@ namespace DurakGame
 
                 Console.WriteLine("\n\n*********************\n");
                 Console.Read();
-            } while (!gameOver);
+            } while (!theGame.IsOver);
         }
     }
 }
