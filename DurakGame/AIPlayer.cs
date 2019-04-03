@@ -42,12 +42,16 @@ namespace DurakGame
         }
 
         /// <summary>
-        /// Clears the decision matrix, leaving only the "take no action" entry.
+        /// Clears the decision matrix.
         /// </summary>
-        public void InitializeMatrix()
+        /// <param name="actionRequired">If false, the "no action" decision will be added to the matrix once cleared.</param>
+        public void InitializeMatrix(bool actionRequired = false)
         {
             DecisionMatrix.Clear();
-            DecisionMatrix.Add(NO_ACTION, 1);
+            if (!actionRequired)
+            {
+                DecisionMatrix.Add(NO_ACTION, 1);
+            }
         }
 
         /// <summary>
@@ -89,6 +93,12 @@ namespace DurakGame
             int randomValue;                // A random value used to select a decision
             int returnValue = NO_ACTION;    // The decision returned
             bool decisionReached = false;
+
+            // Bypass all decision logic and return the "do nothing" decision if the decision matrix is empty.
+            if (DecisionMatrix.Count == 0)
+            {
+                return NO_ACTION;
+            }
 
             // The sum of weights is calculated by consecutively adding each weight value.
             foreach (int weight in DecisionMatrix.Values)

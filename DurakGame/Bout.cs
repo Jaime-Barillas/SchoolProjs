@@ -160,7 +160,7 @@ namespace DurakGame
                 // Rebuild AI player decision matrix based on current game state
                 if (Attacker is AIPlayer)
                 {
-                    (Attacker as AIPlayer).InitializeMatrix();
+                    (Attacker as AIPlayer).InitializeMatrix(AttackCardsPlayed.Count == 0);  // The player MUST play at least one attack
                     List<int> validAttacks = new List<int>();
                     foreach(Card card in Attacker.Hand)
                     {
