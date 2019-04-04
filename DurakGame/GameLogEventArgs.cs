@@ -14,7 +14,7 @@ namespace DurakGame
         /// <summary>
         /// Message to be displayed to the game log.
         /// </summary>
-        public string Message { get; }
+        public string Message { get; set; }
 
         /// <summary>
         /// Instantiates a new set of event arguments for Durak console output events.

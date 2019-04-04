@@ -35,7 +35,7 @@ namespace DurakGame
         /// <summary>
         /// The trump suit used during this game.
         /// </summary>
-        public Suit TrumpSuit { get; }
+        public Suit TrumpSuit { get { return Talon.Trump.Suit; } }
 
         /// <summary>
         /// The poor fool who lost the game. Initially null.
@@ -104,8 +104,7 @@ namespace DurakGame
                 // (it really wasn't worth making a method for this)
                 player.HandEmpty += delegate (object sender, GameLogEventArgs e) { ActivePlayers--; };
             }
-            TrumpSuit = Talon.Trump.Suit;
-
+            
             // Players draw their opening hands
             foreach (Player player in Players)
             {
@@ -114,7 +113,7 @@ namespace DurakGame
                 {
                     openingHand.Add(Talon.Draw());
                 }
-                player.TakeCards(openingHand);
+                player.TakeCards(openingHand, "the talon", "draws");
             }
 
             // Set up the initial bout.
@@ -125,7 +124,7 @@ namespace DurakGame
         /// Instantiates a new Durak game with one human player and one simple AI player.
         /// </summary>
         /// <param name="deck">The deck to use as the talon.</param>
-        public Game(Deck deck) : this(deck, new List<Player>(new Player[] { new HumanPlayer(), new SimpleAIPlayer() }))
+        public Game(Deck deck) : this(deck, new List<Player> { new HumanPlayer(), new SimpleAIPlayer() })
         { }
 
         /// <summary>
@@ -267,7 +266,7 @@ namespace DurakGame
 
                 OnEnd(new GameLogEventArgs(string.Format("The game has ended! {0} is the fool!", Fool.Name)));
             }
-            // If the Fool is still null, the game continues.
+            // Otherwise, the game continues.
             else
             {
                 // If the current bout is still ongoing...
@@ -290,7 +289,7 @@ namespace DurakGame
                             {
                                 cardsToAdd.Add(Talon.Draw());
                             }
-                            replenishingPlayer.TakeCards(cardsToAdd);
+                            replenishingPlayer.TakeCards(cardsToAdd, "the talon", "draws");
                         }
 
                         // Replenishing moves counterclockwise (opposite to turn order)

@@ -14,7 +14,7 @@ namespace DurakGame
         /// <summary>
         /// The "action index", generally representing the hand index of the card being played.
         /// </summary>
-        public int Action { get; }
+        public int Action { get; set; }
 
         /// <summary>
         /// Instantiates a new set of arguments for Durak in-game card events.

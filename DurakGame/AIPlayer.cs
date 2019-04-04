@@ -86,7 +86,7 @@ namespace DurakGame
         /// Selects a random decision from the AI player's weighted decision matrix.
         /// </summary>
         /// <returns>An integer representing the index of a card in the player's hand, or -1 if the chosen action is to do nothing (giving up the attack/defense).</returns>
-        protected int GetDecision()
+        protected virtual int GetDecision()
         {
             int sumOfWeights = 0;           // Sum of weights of all decisions
             Random rnd = new Random();

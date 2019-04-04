@@ -135,12 +135,14 @@ namespace DurakGame
         /// Adds multiple cards to the player's hand.
         /// </summary>
         /// <param name="newCards">Array of cards to add.</param>
-        public void TakeCards(Card[] newCards)
+        /// <param name="pickUpTarget">Where the cards are being taken from. Used to customize the output message.</param>
+        /// <param name="pickUpAction">The way the cards are being taken (i.e. "picked up" vs "drawn"). Used to customize the output message.</param>
+        public void TakeCards(Card[] newCards, string pickUpTarget = "", string pickUpAction = "picks up")
         {
             if (newCards.Length > 0)
             {
                 Hand.AddRange(newCards);
-                OnPickUp(new GameLogEventArgs(string.Format("{0} picks up {1} card(s).", Name, newCards.Length)));
+                OnPickUp(new GameLogEventArgs(string.Format("{0} {1} {2} " + (newCards.Length == 1 ? "card" : "cards") + (pickUpTarget == string.Empty ? "" : " from {3}") + ".", Name, pickUpAction, newCards.Length, pickUpTarget)));
             }
         }
 
@@ -148,9 +150,11 @@ namespace DurakGame
         /// Adds multiple cards to the player's hand.
         /// </summary>
         /// <param name="newCards">List of cards to add.</param>
-        public void TakeCards(List<Card> newCards)
+        /// <param name="pickUpTarget">Where the cards are being taken from. Used to customize the output message.</param>
+        /// <param name="pickUpAction">The way the cards are being taken (i.e. "picked up" vs "drawn"). Used to customize the output message.</param>
+        public void TakeCards(List<Card> newCards, string pickUpTarget = "", string pickUpAction = "picks up")
         {
-            TakeCards(newCards.ToArray());
+            TakeCards(newCards.ToArray(), pickUpTarget, pickUpAction);
         }
 
         /// <summary>

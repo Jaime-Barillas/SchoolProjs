@@ -116,7 +116,7 @@ namespace DurakGame
         /// </summary>
         /// <param name="card">The card to be played.</param>
         /// <returns>True if the card can be played as an attack; false otherwise.</returns>
-        public bool IsValidAttack(Card card)
+        public virtual bool IsValidAttack(Card card)
         {
             bool isValid = false;
 
@@ -143,6 +143,23 @@ namespace DurakGame
                         isValid = true;
                     }
                 }
+            }
+
+            return isValid;
+        }
+
+        /// <summary>
+        /// Determines whether a card can currently be played as a valid defense.
+        /// </summary>
+        /// <param name="card">The card to be played.</param>
+        /// <returns>True if the card is a valid defense; false otherwise.</returns>
+        public virtual bool IsValidDefense(Card card)
+        {
+            bool isValid = false;
+
+            if (card.CanDefendAgainst(AttackCardsPlayed.Last(), Game.TrumpSuit))
+            {
+                isValid = true;
             }
 
             return isValid;
@@ -210,8 +227,12 @@ namespace DurakGame
                 // If the defender lost, they have to pick up all of the cards.
                 if (Winner == Attacker)
                 {
-                    Defender.TakeCards(AttackCardsPlayed.Union(DefenseCardsPlayed).ToArray());
+                    Defender.TakeCards(AttackCardsPlayed.Union(DefenseCardsPlayed).ToArray(), "the table");
                 }
+
+                // Remove all cards from the table.
+                AttackCardsPlayed.Clear();
+                DefenseCardsPlayed.Clear();
             }
         }
         
@@ -256,7 +277,7 @@ namespace DurakGame
             }
             else if (e.Action >= 0 && e.Action < (sender as Player).Hand.Count)
             {
-                if ((sender as Player).Hand[e.Action].CanDefendAgainst(AttackCardsPlayed.Last(), this.Game.TrumpSuit))
+                if (IsValidDefense((sender as Player).Hand[e.Action]))
                 {
                     (sender as Player).DefendWith(e.Action);
                 }

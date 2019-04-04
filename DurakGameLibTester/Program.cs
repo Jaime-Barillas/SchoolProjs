@@ -20,6 +20,7 @@ namespace DurakGame
                 Console.WriteLine("\t2) Defense test");
                 Console.WriteLine("\t3) Player subclass test");
                 Console.WriteLine("\t4) Full game test - AI only");
+                Console.WriteLine("\t5) Full game test - Human vs AI");
 
                 Console.Write("Selection: ");
                 userInput = Console.ReadLine();
@@ -36,6 +37,9 @@ namespace DurakGame
                         break;
                     case "4":
                         FullGameAITest();
+                        break;
+                    case "5":
+                        FullGameHumanTest();
                         break;
                     default:
                         userInput = "retry";
@@ -162,12 +166,15 @@ namespace DurakGame
         static void _SpitToOutput(object sender, GameLogEventArgs e)
         {
             Console.WriteLine(e.Message);
+            //Console.ReadKey();
         }
+
+        static Game testGame_AI;
 
         static void FullGameAITest()
         {
             // Create new game with two simple AI players
-            Game theGame = new Game(new Deck(), new List<Player> { new SimpleAIPlayer("AI Player 1"), new SimpleAIPlayer("AI Player 2") });
+            testGame_AI = new Game(new Deck(), new List<Player> { new SimpleAIPlayer("AI Player 1"), new SimpleAIPlayer("AI Player 2") });
 
             //bool gameOver = false;  // Flag for determining when the game has ended.
             /* 
@@ -175,27 +182,27 @@ namespace DurakGame
              */
             // NOTE: these delegates are very ugly, and in actual code we should always be using actual declared methods.
             //theGame.End += delegate (object sender, GameLogEventArgs e) { gameOver = true; };
-            theGame.End += _SpitToOutput;
-            theGame.NewBout += _SpitToOutput;
+            testGame_AI.End += _SpitToOutput;
+            testGame_AI.NewBout += _SpitToOutput;
 
-            theGame.Talon.Empty += _SpitToOutput;
+            testGame_AI.Talon.Empty += _SpitToOutput;
 
-            theGame.CurrentBout.Report += _SpitToOutput;
-            theGame.CurrentBout.End += _SpitToOutput;
-            theGame.CurrentBout.End += delegate (object sender, GameLogEventArgs e)
+            testGame_AI.CurrentBout.Report += _SpitToOutput;
+            testGame_AI.CurrentBout.End += _SpitToOutput;
+            testGame_AI.CurrentBout.End += delegate (object sender, GameLogEventArgs e)
             {
                 // Unsubscribe event handlers when a bout ends.
-                theGame.CurrentBout.Report -= _SpitToOutput;
-                theGame.CurrentBout.End -= _SpitToOutput;
+                testGame_AI.CurrentBout.Report -= _SpitToOutput;
+                testGame_AI.CurrentBout.End -= _SpitToOutput;
             };
-            theGame.NewBout += delegate (object sender, GameLogEventArgs e)
+            testGame_AI.NewBout += delegate (object sender, GameLogEventArgs e)
             {
                 // Subscribe event handlers to new bout when it starts.
-                theGame.CurrentBout.Report += _SpitToOutput;
-                theGame.CurrentBout.End += _SpitToOutput;
+                testGame_AI.CurrentBout.Report += _SpitToOutput;
+                testGame_AI.CurrentBout.End += _SpitToOutput;
             };
 
-            foreach (Player player in theGame.Players)
+            foreach (Player player in testGame_AI.Players)
             {
                 player.AttackLog += _SpitToOutput;
                 player.DefendLog += _SpitToOutput;
@@ -204,20 +211,16 @@ namespace DurakGame
                 player.PickUp += _SpitToOutput;
                 // Note: Attack, Defend and Prompt events use GameActionEventArgs, and so aren't meant for the game log.
                 // They're mostly handled internally, but can be subscribed to if we wanted to, say, make a card spin around when you attack with it or something.
-                // The one exception is that HumanPlayers must have their functionality defined in a method that subscribes to the Prompt event.
+                // The one exception is that HumanPlayers must have their functionality defined in a method that subscribes to the AcceptInput event.
             }
 
             /*
              * Begin the core game loop.
              */
-
-
             do
             {
-                theGame.Continue();
-
                 // Display current game state
-                foreach (Player player in theGame.Players)
+                foreach (Player player in testGame_AI.Players)
                 {
                     Console.WriteLine("\n-----\n{0}'s hand:", player);
                     foreach (Card card in player.Hand)
@@ -226,26 +229,202 @@ namespace DurakGame
                     }
                 }
                 Console.WriteLine("\n============\nCards on the table:");
-                foreach (Card attackCard in theGame.CurrentBout.AttackCardsPlayed)
+                foreach (Card attackCard in testGame_AI.CurrentBout.AttackCardsPlayed)
                 {
                     Console.Write(attackCard);
                     // If the card has been defended against...
-                    if (theGame.CurrentBout.DefenseCardsPlayed.Count > 0 && theGame.CurrentBout.AttackCardsPlayed.IndexOf(attackCard) <= theGame.CurrentBout.DefenseCardsPlayed.Count - 1)
+                    if (testGame_AI.CurrentBout.DefenseCardsPlayed.Count > 0 && testGame_AI.CurrentBout.AttackCardsPlayed.IndexOf(attackCard) <= testGame_AI.CurrentBout.DefenseCardsPlayed.Count - 1)
                     {
                         // (in retrospect it might have been much cleaner to keep a reference variable pointing to these two lists, haha)
-                        Console.WriteLine(" (blocked with {0})", theGame.CurrentBout.DefenseCardsPlayed[theGame.CurrentBout.AttackCardsPlayed.IndexOf(attackCard)]);
+                        Console.WriteLine(" (blocked with {0})", testGame_AI.CurrentBout.DefenseCardsPlayed[testGame_AI.CurrentBout.AttackCardsPlayed.IndexOf(attackCard)]);
                     }
                     else
                     {
                         Console.Write(" (unblocked)");
                     }
                 }
-                Console.WriteLine("\n\nCards remaining in the talon: {0}", theGame.Talon.Size);
-                Console.WriteLine("Trump suit: {0}", theGame.TrumpSuit);
+                Console.WriteLine("\n\nCards remaining in the talon: {0}", testGame_AI.Talon.Size);
+                Console.WriteLine("Trump suit: {0}", testGame_AI.TrumpSuit);
 
                 Console.WriteLine("\n\n*********************\n");
-                Console.Read();
-            } while (!theGame.IsOver);
+                Console.ReadKey();
+
+                // Continue the actual game loop
+                testGame_AI.Continue();
+            } while (!testGame_AI.IsOver);
+        }
+
+        static void _PlayerInput(object sender, GameActionEventArgs e)
+        {
+            Console.WriteLine("Please select an action:");
+            Console.WriteLine("\t0 - No action");
+            for (int i = 1; i <= (sender as Player).Hand.Count; i++)
+            {
+                Console.WriteLine("\t{0} - {1}", i, (sender as Player).Hand[i - 1]);
+            }
+
+            int action = 0;
+            bool validInput = false;
+
+            do
+            {
+                Console.Write("\nEnter input: ");
+                string playerChoice = Console.ReadLine();
+                try
+                {
+                    action = int.Parse(playerChoice);
+                    if (action < 0 || action > (sender as Player).Hand.Count)
+                    {
+                        throw new ArgumentOutOfRangeException(string.Format("Action must be between 0 and {0}.", (sender as Player).Hand.Count));
+                    }
+
+                    if (action == 0)
+                    {
+                        // First attack is mandatory
+                        if (testGame_Human.CurrentBout.AttackCardsPlayed.Count == 0)
+                        {
+                            validInput = false;
+                        }
+                        else
+                        {
+                            validInput = true;
+                        }
+                    }
+                    else if (sender == testGame_Human.CurrentBout.Attacker)
+                    {
+                        if (testGame_Human.CurrentBout.IsValidAttack((sender as Player).Hand[action - 1]))
+                        {
+                            validInput = true;
+                        }
+                    }
+                    else if (sender == testGame_Human.CurrentBout.Defender)
+                    {
+                        if (testGame_Human.CurrentBout.IsValidDefense((sender as Player).Hand[action - 1]))
+                        {
+                            validInput = true;
+                        }
+                    }
+
+                    // Player-facing error prompts
+                    if (!validInput)
+                    {
+                        if (action == 0)
+                        {
+                            Console.WriteLine("You must attack!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("The {0} is not a valid {1}!", (sender as Player).Hand[action - 1], (sender == testGame_Human.CurrentBout.Attacker ? "attack" : "defense"));
+                        }
+                    }
+                }
+                catch (ArgumentOutOfRangeException oor)
+                {
+                    Console.Error.WriteLine(oor.Message);
+                }
+                catch (FormatException)
+                {
+                    Console.Error.WriteLine("Invalid input.");
+                }
+                catch (ArgumentException a)
+                {
+                    Console.Error.WriteLine(a.Message);
+                }
+            } while (!validInput);
+
+            // Once we've received valid input, write it to the Action property of the event args, and the library will handle the rest
+            // NOTE: we need to subtract 1 in this case, since Hand is zero-based and "NO ACTION" is represented with -1
+            e.Action = action - 1;
+        }
+
+        static Game testGame_Human;
+
+        static void FullGameHumanTest()
+        {
+            // Create a new game
+            testGame_Human = new Game();
+
+            /* 
+             * Subscribe event handlers to all relevant events
+             */
+            testGame_Human.End += _SpitToOutput;
+            testGame_Human.NewBout += _SpitToOutput;
+
+            testGame_Human.Talon.Empty += _SpitToOutput;
+
+            testGame_Human.CurrentBout.Report += _SpitToOutput;
+            testGame_Human.CurrentBout.End += _SpitToOutput;
+            testGame_Human.CurrentBout.End += delegate (object sender, GameLogEventArgs e)
+            {
+                // Unsubscribe event handlers when a bout ends.
+                testGame_Human.CurrentBout.Report -= _SpitToOutput;
+                testGame_Human.CurrentBout.End -= _SpitToOutput;
+            };
+            testGame_Human.NewBout += delegate (object sender, GameLogEventArgs e)
+            {
+                // Subscribe event handlers to new bout when it starts.
+                testGame_Human.CurrentBout.Report += _SpitToOutput;
+                testGame_Human.CurrentBout.End += _SpitToOutput;
+            };
+
+            foreach (Player player in testGame_Human.Players)
+            {
+                player.AttackLog += _SpitToOutput;
+                player.DefendLog += _SpitToOutput;
+                player.Concede += _SpitToOutput;
+                player.HandEmpty += _SpitToOutput;
+                player.PickUp += _SpitToOutput;
+                if (player is HumanPlayer)
+                {
+                    (player as HumanPlayer).AcceptInput += _PlayerInput;
+                }
+            }
+
+            /*
+             * Begin the core game loop.
+             */
+            do
+            {
+                // Display current game state
+                foreach (Player player in testGame_Human.Players)
+                {
+                    if (player is HumanPlayer)
+                    {
+                        Console.WriteLine("\n-----\n{0}'s hand:", player);
+                        foreach (Card card in player.Hand)
+                        {
+                            Console.WriteLine("\t{0}", card);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n------\n{0}'s hand: {1} " + (player.Hand.Count == 1 ? "card" : "cards"), player.Name, player.Hand.Count);
+                    }
+                }
+                Console.WriteLine("\n============\nCards on the table:");
+                foreach (Card attackCard in testGame_Human.CurrentBout.AttackCardsPlayed)
+                {
+                    Console.Write(attackCard);
+                    // If the card has been defended against...
+                    if (testGame_Human.CurrentBout.DefenseCardsPlayed.Count > 0 && testGame_Human.CurrentBout.AttackCardsPlayed.IndexOf(attackCard) <= testGame_Human.CurrentBout.DefenseCardsPlayed.Count - 1)
+                    {
+                        // (in retrospect it might have been much cleaner to keep a reference variable pointing to these two lists, haha)
+                        Console.WriteLine(" (blocked with {0})", testGame_Human.CurrentBout.DefenseCardsPlayed[testGame_Human.CurrentBout.AttackCardsPlayed.IndexOf(attackCard)]);
+                    }
+                    else
+                    {
+                        Console.Write(" (unblocked)");
+                    }
+                }
+                Console.WriteLine("\n\nCards remaining in the talon: {0}", testGame_Human.Talon.Size);
+                Console.WriteLine("Trump suit: {0}", testGame_Human.TrumpSuit);
+
+                Console.WriteLine("\n\n*********************\n");
+                Console.ReadKey();
+
+                // Continue the actual game loop
+                testGame_Human.Continue();
+            } while (!testGame_Human.IsOver);
         }
     }
 }
