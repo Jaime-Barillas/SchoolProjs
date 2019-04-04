@@ -204,10 +204,10 @@
             // 
             // cmbCardSkins
             // 
-            this.cmbCardSkins.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.cmbCardSkins.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cmbCardSkins.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbCardSkins.FormattingEnabled = true;
-            this.cmbCardSkins.Location = new System.Drawing.Point(82, 235);
+            this.cmbCardSkins.Location = new System.Drawing.Point(100, 280);
             this.cmbCardSkins.Name = "cmbCardSkins";
             this.cmbCardSkins.Size = new System.Drawing.Size(177, 33);
             this.cmbCardSkins.TabIndex = 1;
@@ -217,7 +217,7 @@
             this.picCardSkinPreview.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.picCardSkinPreview.Location = new System.Drawing.Point(100, 49);
             this.picCardSkinPreview.Name = "picCardSkinPreview";
-            this.picCardSkinPreview.Size = new System.Drawing.Size(146, 174);
+            this.picCardSkinPreview.Size = new System.Drawing.Size(150, 225);
             this.picCardSkinPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCardSkinPreview.TabIndex = 0;
             this.picCardSkinPreview.TabStop = false;
