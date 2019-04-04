@@ -51,6 +51,7 @@ namespace DurakGame
         /// Parameterized constructor. Creates a talon out of a deck of cards.
         /// </summary>
         /// <param name="deck">The deck to use as a talon.</param>
+        /// <exception cref="ArgumentException">The given deck has zero cards in it.</exception>
         public Talon(Deck deck)
         {
             if (deck.Size < 1)
@@ -80,6 +81,7 @@ namespace DurakGame
         /// Draws a card, removing it from the talon. The trump will be drawn when there are no cards remaining in the deck.
         /// </summary>
         /// <returns>The drawn card.</returns>
+        /// <exception cref="InvalidOperationException">The talon is empty.</exception>
         public Card Draw()
         {
             // If there are any cards in the deck, draw one.

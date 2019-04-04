@@ -88,6 +88,7 @@ namespace DurakGame
         /// </summary>
         /// <param name="preset">The deck preset to be used.</param>
         /// <returns>An equivalent array of Ranks.</returns>
+        /// <exception cref="ArgumentException">The given value is not a valid deck preset.</exception>
         private static Rank[] PresetToRankArray(Preset preset)
         {
             switch (preset)
@@ -157,6 +158,7 @@ namespace DurakGame
         /// Draws a card, removing it from the deck.
         /// </summary>
         /// <returns>The drawn card.</returns>
+        /// <exception cref="InvalidOperationException">The deck is empty.</exception>
         public Card Draw()
         {
             if (this.Size > 0)

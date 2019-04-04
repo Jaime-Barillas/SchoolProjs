@@ -16,6 +16,7 @@ namespace DurakGame
         /// <summary>
         /// The likelihood of the SimpleAIPlayer playing a card. Lower values cause the AI to give up the attack/defense more often.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">An attempt is made to set the difficulty lower than 1.</exception>
         public static int Difficulty
         {
             get

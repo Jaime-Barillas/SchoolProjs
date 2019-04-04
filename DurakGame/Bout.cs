@@ -241,6 +241,8 @@ namespace DurakGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// <exception cref="ArgumentException">The attacker attempts to make an illegal attack.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The attacker attempts to select a card index that does not exist in their hand.</exception>
         private void OnPromptAttacker(object sender, GameActionEventArgs e)
         {
             if (e.Action == Player.NO_ACTION)
@@ -269,6 +271,8 @@ namespace DurakGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// <exception cref="ArgumentException">The defender attempts to make an illegal defense.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The defender attempts to select a card index that does not exist in their hand.</exception>
         private void OnPromptDefender(object sender, GameActionEventArgs e)
         {
             if (e.Action == Player.NO_ACTION)
@@ -297,6 +301,7 @@ namespace DurakGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// <exception cref="InvalidOperationException">The chosen card is not a valid attack for the current game state.</exception>
         private void OnNewAttack(object sender, GameActionEventArgs e)
         {
             if (IsValidAttack((sender as Player).Hand[e.Action]))
@@ -306,7 +311,7 @@ namespace DurakGame
             }
             else
             {
-                throw new InvalidOperationException(e.Action.ToString() + " is not a valid attack!");
+                throw new InvalidOperationException((sender as Player).Hand[e.Action] + " is not a valid attack!");
             }
         }
 
@@ -315,11 +320,18 @@ namespace DurakGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// <exception cref="InvalidOperationException">The chosen card is not a valid defense for the current game state.</exception>
         private void OnNewDefend(object sender, GameActionEventArgs e)
         {
             if ((sender as Player).Hand[e.Action].CanDefendAgainst(AttackCardsPlayed.Last(), this.Game.TrumpSuit))
-            // Add the defense card to the pile.
-            DefenseCardsPlayed.Add((sender as Player).Hand[e.Action]);
+            {
+                // Add the defense card to the pile.
+                DefenseCardsPlayed.Add((sender as Player).Hand[e.Action]);
+            }
+            else
+            {
+                throw new InvalidOperationException((sender as Player).Hand[e.Action] + " is not a valid defense!");
+            }
         }
 
         /// <summary>

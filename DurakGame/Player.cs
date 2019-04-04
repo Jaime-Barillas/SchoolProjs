@@ -167,6 +167,7 @@ namespace DurakGame
         /// </summary>
         /// <param name="index">The index of the card being played.</param>
         /// <returns>The card being played.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">The given index does not exist in the player's hand.</exception>
         public Card AttackWith(int index)
         {
             if (index >= 0 && index < Hand.Count)
@@ -188,6 +189,7 @@ namespace DurakGame
         /// </summary>
         /// <param name="index">Index of the card being played.</param>
         /// <returns>The card being played.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">The given index does not exist in the player's hand.</exception>
         public Card DefendWith(int index)
         {
             if (index >= 0 && index < Hand.Count)
@@ -209,6 +211,7 @@ namespace DurakGame
         /// </summary>
         /// <param name="index">Index of the card being played.</param>
         /// <returns>The card being played.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">The given index does not exist in the player's hand.</exception>
         private Card PlayCard(int index)
         {
             if (index >= 0 && index < Hand.Count)

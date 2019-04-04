@@ -82,6 +82,7 @@ namespace DurakGame
         /// </summary>
         /// <param name="deck">The deck to use as the talon.</param>
         /// <param name="players">The players involved in the game.</param>
+        /// <exception cref="ArgumentException">There aren't enough cards in the deck for each player to draw their opening hand.</exception>
         public Game(Deck deck, List<Player> players)
         {
             // Throw an exception if the deck is too small
@@ -141,6 +142,8 @@ namespace DurakGame
         /// </summary>
         /// <param name="player">The player to compare to.</param>
         /// <returns>The next active player in the turn order.</returns>
+        /// <exception cref="ArgumentException">The given player is not part of this game.</exception>
+        /// <exception cref="InvalidOperationException">There is only one player left in the game.</exception>
         public Player PlayerAfter(Player player)
         {
             if (!Players.Contains(player))
@@ -178,6 +181,8 @@ namespace DurakGame
         /// </summary>
         /// <param name="player">The player being compared to.</param>
         /// <returns>The previous active player.</returns>
+        /// <exception cref="ArgumentException">The given player is not part of this game.</exception>
+        /// <exception cref="InvalidOperationException">There is only one player left in the game.</exception>
         public Player PlayerBefore(Player player)
         {
             if (!Players.Contains(player))
