@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets.cs" />
     <Compile Include="Durak.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DurakGame\DurakGameLib.csproj">
+      <Project>{7edab018-6c01-438c-992b-7ab3028a3633}</Project>
+      <Name>DurakGameLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

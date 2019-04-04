@@ -218,6 +218,7 @@
             this.picCardSkinPreview.Location = new System.Drawing.Point(100, 49);
             this.picCardSkinPreview.Name = "picCardSkinPreview";
             this.picCardSkinPreview.Size = new System.Drawing.Size(146, 174);
+            this.picCardSkinPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picCardSkinPreview.TabIndex = 0;
             this.picCardSkinPreview.TabStop = false;
             // 
@@ -259,6 +260,7 @@
             this.Name = "Durak";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "OOP 4200 Durak";
+            this.Load += new System.EventHandler(this.Durak_Load);
             this.tlpMainMenu.ResumeLayout(false);
             this.tlpMainMenu.PerformLayout();
             this.tlpOptionMenu.ResumeLayout(false);
