@@ -39,11 +39,6 @@ namespace DurakGame
         /// Fired when the player is prompted to take action.
         /// </summary>
         public event EventHandler<GameActionEventArgs> Prompt;
-        /// <summary>
-        /// Consumes the Prompt event.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <returns>An "action index" representing the action the player chose to take when prompted.</returns>
         protected virtual void OnPrompt(GameActionEventArgs a)
         {
             Prompt?.Invoke(this, a);

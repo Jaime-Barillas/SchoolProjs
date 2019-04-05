@@ -10,13 +10,13 @@
   <Class Name="DurakGame.Bout">
     <Position X="7.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAoACAEAAAQAAQAAIACAEQAgAAhAAAAAgAAAAACAJAA=</HashCode>
+      <HashCode>AAoACAEAAAQAQQAAIACAEQAgAAhAAAAAgAAAAACAJAA=</HashCode>
       <FileName>Bout.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Property Name="Game" />
       <Property Name="Attacker" />
       <Property Name="Defender" />
-      <Property Name="Game" />
     </ShowAsAssociation>
   </Class>
   <Class Name="DurakGame.Card">
@@ -81,7 +81,7 @@
   <Class Name="DurakGame.HumanPlayer">
     <Position X="2.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAACAAAAAAAAAAAI=</HashCode>
       <FileName>HumanPlayer.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -97,8 +97,11 @@
   </Class>
   <Class Name="DurakGame.SimpleAIPlayer">
     <Position X="0.75" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="difficulty" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAABAAAAAQAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SimpleAIPlayer.cs</FileName>
     </TypeIdentifier>
   </Class>

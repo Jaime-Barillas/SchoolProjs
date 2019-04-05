@@ -54,10 +54,18 @@ namespace DurakGame
         /// Fires when the bout makes a report. Useful for the game log.
         /// </summary>
         public event EventHandler<GameLogEventArgs> Report;
+        protected virtual void OnReport(GameLogEventArgs l)
+        {
+            Report?.Invoke(this, l);
+        }
         /// <summary>
         /// Fires when the bout is concluded.
         /// </summary>
         public event EventHandler<GameLogEventArgs> End;
+        protected virtual void OnEnd(GameLogEventArgs l)
+        {
+            End?.Invoke(this, l);
+        }
 
         #endregion
 
@@ -173,7 +181,7 @@ namespace DurakGame
             // Attacker's "turn".
             if (AttackCardsPlayed.Count <= DefenseCardsPlayed.Count)
             {
-                Report?.Invoke(this, new GameLogEventArgs(string.Format("Attacker's turn - {0}", Attacker.Name)));
+                OnReport(new GameLogEventArgs(string.Format("Attacker's turn - {0}", Attacker.Name)));
                 // Rebuild AI player decision matrix based on current game state
                 if (Attacker is AIPlayer)
                 {
@@ -195,7 +203,7 @@ namespace DurakGame
             // Defender's "turn".
             else
             {
-                Report?.Invoke(this, new GameLogEventArgs(string.Format("Defender's turn - {0}", Defender.Name)));
+                OnReport(new GameLogEventArgs(string.Format("Defender's turn - {0}", Defender.Name)));
                 // Rebuild AI player decision matrix based on current game state
                 if (Defender is AIPlayer)
                 {
@@ -223,7 +231,7 @@ namespace DurakGame
             // If a winner has been declared, the bout is concluded.
             if (Winner != null)
             {
-                End?.Invoke(this, new GameLogEventArgs(string.Format("{0} won the bout!", Winner.Name)));
+                OnEnd(new GameLogEventArgs(string.Format("{0} won the bout!", Winner.Name)));
                 // If the defender lost, they have to pick up all of the cards.
                 if (Winner == Attacker)
                 {
