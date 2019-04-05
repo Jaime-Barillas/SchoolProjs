@@ -42,11 +42,22 @@
             this.picCardSkinPreview = new System.Windows.Forms.PictureBox();
             this.btnMainMenu = new System.Windows.Forms.Button();
             this.btnHelp = new System.Windows.Forms.Button();
+            this.tlpStatsMenu = new System.Windows.Forms.TableLayoutPanel();
+            this.btnMainMenuStats = new System.Windows.Forms.Button();
+            this.btnStatsReset = new System.Windows.Forms.Button();
+            this.lblPlayerName = new System.Windows.Forms.Label();
+            this.lblGames = new System.Windows.Forms.Label();
+            this.lblWins = new System.Windows.Forms.Label();
+            this.lblLosses = new System.Windows.Forms.Label();
+            this.lblNumberOfGames = new System.Windows.Forms.Label();
+            this.lblNumberOfWins = new System.Windows.Forms.Label();
+            this.lblNumberOfLosses = new System.Windows.Forms.Label();
             this.tlpMainMenu.SuspendLayout();
             this.tlpOptionMenu.SuspendLayout();
             this.grpVariations.SuspendLayout();
             this.grpCardSkins.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCardSkinPreview)).BeginInit();
+            this.tlpStatsMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMainMenu
@@ -248,12 +259,151 @@
             this.btnHelp.UseVisualStyleBackColor = false;
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
+            // tlpStatsMenu
+            // 
+            this.tlpStatsMenu.ColumnCount = 2;
+            this.tlpStatsMenu.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpStatsMenu.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpStatsMenu.Controls.Add(this.btnMainMenuStats, 0, 4);
+            this.tlpStatsMenu.Controls.Add(this.btnStatsReset, 1, 4);
+            this.tlpStatsMenu.Controls.Add(this.lblPlayerName, 0, 0);
+            this.tlpStatsMenu.Controls.Add(this.lblGames, 0, 1);
+            this.tlpStatsMenu.Controls.Add(this.lblWins, 0, 2);
+            this.tlpStatsMenu.Controls.Add(this.lblLosses, 0, 3);
+            this.tlpStatsMenu.Controls.Add(this.lblNumberOfGames, 1, 1);
+            this.tlpStatsMenu.Controls.Add(this.lblNumberOfWins, 1, 2);
+            this.tlpStatsMenu.Controls.Add(this.lblNumberOfLosses, 1, 3);
+            this.tlpStatsMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpStatsMenu.Location = new System.Drawing.Point(0, 0);
+            this.tlpStatsMenu.Name = "tlpStatsMenu";
+            this.tlpStatsMenu.RowCount = 5;
+            this.tlpStatsMenu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpStatsMenu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpStatsMenu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpStatsMenu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.3309F));
+            this.tlpStatsMenu.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.81509F));
+            this.tlpStatsMenu.Size = new System.Drawing.Size(704, 411);
+            this.tlpStatsMenu.TabIndex = 2;
+            this.tlpStatsMenu.Visible = false;
+            // 
+            // btnMainMenuStats
+            // 
+            this.btnMainMenuStats.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnMainMenuStats.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.btnMainMenuStats.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMainMenuStats.Location = new System.Drawing.Point(3, 350);
+            this.btnMainMenuStats.Name = "btnMainMenuStats";
+            this.btnMainMenuStats.Size = new System.Drawing.Size(150, 56);
+            this.btnMainMenuStats.TabIndex = 0;
+            this.btnMainMenuStats.Text = "MainMenu";
+            this.btnMainMenuStats.UseVisualStyleBackColor = false;
+            this.btnMainMenuStats.Click += new System.EventHandler(this.btnMainMenuStats_Click);
+            // 
+            // btnStatsReset
+            // 
+            this.btnStatsReset.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnStatsReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.btnStatsReset.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStatsReset.Location = new System.Drawing.Point(551, 350);
+            this.btnStatsReset.Name = "btnStatsReset";
+            this.btnStatsReset.Size = new System.Drawing.Size(150, 56);
+            this.btnStatsReset.TabIndex = 1;
+            this.btnStatsReset.Text = "Reset Stats";
+            this.btnStatsReset.UseVisualStyleBackColor = false;
+            // 
+            // lblPlayerName
+            // 
+            this.lblPlayerName.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblPlayerName.AutoSize = true;
+            this.tlpStatsMenu.SetColumnSpan(this.lblPlayerName, 2);
+            this.lblPlayerName.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayerName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.lblPlayerName.Location = new System.Drawing.Point(247, 10);
+            this.lblPlayerName.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
+            this.lblPlayerName.Name = "lblPlayerName";
+            this.lblPlayerName.Size = new System.Drawing.Size(210, 45);
+            this.lblPlayerName.TabIndex = 2;
+            this.lblPlayerName.Text = "Player Name";
+            // 
+            // lblGames
+            // 
+            this.lblGames.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblGames.AutoSize = true;
+            this.lblGames.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGames.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.lblGames.Location = new System.Drawing.Point(148, 108);
+            this.lblGames.Name = "lblGames";
+            this.lblGames.Size = new System.Drawing.Size(201, 30);
+            this.lblGames.TabIndex = 3;
+            this.lblGames.Text = "Number Of Games:";
+            // 
+            // lblWins
+            // 
+            this.lblWins.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblWins.AutoSize = true;
+            this.lblWins.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWins.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.lblWins.Location = new System.Drawing.Point(164, 190);
+            this.lblWins.Name = "lblWins";
+            this.lblWins.Size = new System.Drawing.Size(185, 30);
+            this.lblWins.TabIndex = 3;
+            this.lblWins.Text = "Number Of Wins:";
+            // 
+            // lblLosses
+            // 
+            this.lblLosses.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblLosses.AutoSize = true;
+            this.lblLosses.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLosses.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.lblLosses.Location = new System.Drawing.Point(151, 280);
+            this.lblLosses.Name = "lblLosses";
+            this.lblLosses.Size = new System.Drawing.Size(198, 30);
+            this.lblLosses.TabIndex = 3;
+            this.lblLosses.Text = "Number Of Losses:";
+            // 
+            // lblNumberOfGames
+            // 
+            this.lblNumberOfGames.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblNumberOfGames.AutoSize = true;
+            this.lblNumberOfGames.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumberOfGames.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.lblNumberOfGames.Location = new System.Drawing.Point(355, 108);
+            this.lblNumberOfGames.Name = "lblNumberOfGames";
+            this.lblNumberOfGames.Size = new System.Drawing.Size(25, 30);
+            this.lblNumberOfGames.TabIndex = 3;
+            this.lblNumberOfGames.Text = "0";
+            // 
+            // lblNumberOfWins
+            // 
+            this.lblNumberOfWins.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblNumberOfWins.AutoSize = true;
+            this.lblNumberOfWins.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumberOfWins.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.lblNumberOfWins.Location = new System.Drawing.Point(355, 190);
+            this.lblNumberOfWins.Name = "lblNumberOfWins";
+            this.lblNumberOfWins.Size = new System.Drawing.Size(25, 30);
+            this.lblNumberOfWins.TabIndex = 3;
+            this.lblNumberOfWins.Text = "0";
+            // 
+            // lblNumberOfLosses
+            // 
+            this.lblNumberOfLosses.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblNumberOfLosses.AutoSize = true;
+            this.lblNumberOfLosses.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumberOfLosses.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.lblNumberOfLosses.Location = new System.Drawing.Point(355, 280);
+            this.lblNumberOfLosses.Name = "lblNumberOfLosses";
+            this.lblNumberOfLosses.Size = new System.Drawing.Size(25, 30);
+            this.lblNumberOfLosses.TabIndex = 3;
+            this.lblNumberOfLosses.Text = "0";
+            // 
             // Durak
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(73)))), ((int)(((byte)(115)))));
             this.ClientSize = new System.Drawing.Size(704, 411);
+            this.Controls.Add(this.tlpStatsMenu);
             this.Controls.Add(this.tlpOptionMenu);
             this.Controls.Add(this.tlpMainMenu);
             this.MinimumSize = new System.Drawing.Size(720, 450);
@@ -267,6 +417,8 @@
             this.grpVariations.ResumeLayout(false);
             this.grpCardSkins.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picCardSkinPreview)).EndInit();
+            this.tlpStatsMenu.ResumeLayout(false);
+            this.tlpStatsMenu.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -287,6 +439,16 @@
         private System.Windows.Forms.CheckedListBox clbVariationsList;
         private System.Windows.Forms.Button btnMainMenu;
         private System.Windows.Forms.Button btnHelp;
+        private System.Windows.Forms.TableLayoutPanel tlpStatsMenu;
+        private System.Windows.Forms.Button btnMainMenuStats;
+        private System.Windows.Forms.Button btnStatsReset;
+        private System.Windows.Forms.Label lblPlayerName;
+        private System.Windows.Forms.Label lblGames;
+        private System.Windows.Forms.Label lblWins;
+        private System.Windows.Forms.Label lblLosses;
+        private System.Windows.Forms.Label lblNumberOfGames;
+        private System.Windows.Forms.Label lblNumberOfWins;
+        private System.Windows.Forms.Label lblNumberOfLosses;
     }
 }
 

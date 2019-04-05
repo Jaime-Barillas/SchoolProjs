@@ -14,22 +14,28 @@ namespace Durak
 {
     public partial class Durak : Form
     {
+        Statistics stats;
+
         public Durak()
         {
             InitializeComponent();
 
-            btnPlay.MouseEnter     += MouseEnterTextColour;
-            btnPlay.MouseLeave     += MouseLeaveTextColour;
-            btnOptions.MouseEnter  += MouseEnterTextColour;
-            btnOptions.MouseLeave  += MouseLeaveTextColour;
-            btnStats.MouseEnter    += MouseEnterTextColour;
-            btnStats.MouseLeave    += MouseLeaveTextColour;
-            btnExit.MouseEnter     += MouseEnterTextColour;
-            btnExit.MouseLeave     += MouseLeaveTextColour;
-            btnMainMenu.MouseEnter += MouseEnterTextColour;
-            btnMainMenu.MouseLeave += MouseLeaveTextColour;
-            btnHelp.MouseEnter     += MouseEnterTextColour;
-            btnHelp.MouseLeave     += MouseLeaveTextColour;
+            btnPlay.MouseEnter          += MouseEnterTextColour;
+            btnPlay.MouseLeave          += MouseLeaveTextColour;
+            btnOptions.MouseEnter       += MouseEnterTextColour;
+            btnOptions.MouseLeave       += MouseLeaveTextColour;
+            btnStats.MouseEnter         += MouseEnterTextColour;
+            btnStats.MouseLeave         += MouseLeaveTextColour;
+            btnExit.MouseEnter          += MouseEnterTextColour;
+            btnExit.MouseLeave          += MouseLeaveTextColour;
+            btnMainMenu.MouseEnter      += MouseEnterTextColour;
+            btnMainMenu.MouseLeave      += MouseLeaveTextColour;
+            btnHelp.MouseEnter          += MouseEnterTextColour;
+            btnHelp.MouseLeave          += MouseLeaveTextColour;
+            btnMainMenuStats.MouseEnter += MouseEnterTextColour;
+            btnMainMenuStats.MouseLeave += MouseLeaveTextColour;
+            btnStatsReset.MouseEnter    += MouseEnterTextColour;
+            btnStatsReset.MouseLeave    += MouseLeaveTextColour;
         }
 
         /// <summary>
@@ -37,6 +43,7 @@ namespace Durak
         /// </summary>
         private void Durak_Load(object sender, EventArgs e)
         {
+            // Load card skins
             Assets.Load();
 
             foreach (string cardSkin in Assets.AvailableSkins())
@@ -49,6 +56,11 @@ namespace Durak
             cmbCardSkins.SelectedIndex = cmbCardSkins.Items.IndexOf("Big Numbers"); // Manualy set combo box text.
 
             cmbCardSkins.SelectedIndexChanged += CmbCardSkins_SelectedIndexChanged;
+
+
+            // Load stats
+            stats = Statistics.Read();
+            UpdateStats();
         }
 
         /// <summary>
@@ -89,7 +101,8 @@ namespace Durak
         /// </summary>
         private void btnStats_Click(object sender, EventArgs e)
         {
-
+            tlpMainMenu.Hide();
+            tlpStatsMenu.Show();
         }
 
         /// <summary>
@@ -119,6 +132,15 @@ namespace Durak
         }
 
         /// <summary>
+        /// Return to the main menu from the stats screen.
+        /// </summary>
+        private void btnMainMenuStats_Click(object sender, EventArgs e)
+        {
+            tlpStatsMenu.Hide();
+            tlpMainMenu.Show();
+        }
+
+        /// <summary>
         /// Load the card skins and set the preview whenever the user selects
         /// a different skin.
         /// </summary>
@@ -126,6 +148,17 @@ namespace Durak
         {
             Assets.LoadCardSkin((string)cmbCardSkins.SelectedItem);
             picCardSkinPreview.Image = Assets.Cards[Suit.Clubs][Rank.Ace];
+        }
+
+        /// <summary>
+        /// Update the stats screen with the current statistics.
+        /// </summary>
+        private void UpdateStats()
+        {
+            lblPlayerName.Text = stats.PlayerName;
+            lblNumberOfGames.Text = stats.NumberOfGames.ToString();
+            lblNumberOfWins.Text = stats.Wins.ToString();
+            lblNumberOfLosses.Text = stats.Losses.ToString();
         }
     }
 }
