@@ -157,6 +157,25 @@ namespace DurakGame
         }
 
         /// <summary>
+        /// Returns the valid attack options in a given list of cards.
+        /// </summary>
+        /// <param name="cards">The cards being assessed. Most likely, a player's hand.</param>
+        /// <returns>A list of cards that are valid attacks.</returns>
+        public virtual List<Card> ValidAttacks(List<Card> cards)
+        {
+            List<Card> validCards = new List<Card>();
+            foreach (Card card in cards)
+            {
+                if (IsValidAttack(card))
+                {
+                    validCards.Add(card);
+                }
+            }
+
+            return validCards;
+        }
+
+        /// <summary>
         /// Determines whether a card can currently be played as a valid defense.
         /// </summary>
         /// <param name="card">The card to be played.</param>
@@ -171,6 +190,25 @@ namespace DurakGame
             }
 
             return isValid;
+        }
+
+        /// <summary>
+        /// Returns the valid defense options in a given list of cards.
+        /// </summary>
+        /// <param name="cards">The cards being assessed. Most likely, a player's hand.</param>
+        /// <returns>A list of cards that are valid defenses.</returns>
+        public virtual List<Card> ValidDefenses(List<Card> cards)
+        {
+            List<Card> validCards = new List<Card>();
+            foreach (Card card in cards)
+            {
+                if (IsValidDefense(card))
+                {
+                    validCards.Add(card);
+                }
+            }
+
+            return validCards;
         }
 
         /// <summary>
