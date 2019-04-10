@@ -61,6 +61,8 @@ namespace Durak
             // Load stats
             stats = Statistics.Read();
             UpdateStats();
+
+            btnStatsReset.Click += btnStatsReset_Click;
         }
 
         /// <summary>
@@ -159,6 +161,27 @@ namespace Durak
             lblNumberOfGames.Text = stats.NumberOfGames.ToString();
             lblNumberOfWins.Text = stats.Wins.ToString();
             lblNumberOfLosses.Text = stats.Losses.ToString();
+
+            stats.Save();
+        }
+
+        /// <summary>
+        /// Reset the stats for the player. Also provides a way to change the player name.
+        /// </summary>
+        private void btnStatsReset_Click(object sender, EventArgs e)
+        {
+            frmResetStats resetForm = new frmResetStats();
+
+            resetForm.ShowDialog(this);
+            if (resetForm.DialogResult == DialogResult.OK)
+            {
+                stats.PlayerName = resetForm.PlayerName;
+                stats.NumberOfGames = 0;
+                stats.Wins = 0;
+                stats.Losses = 0;
+
+                UpdateStats();
+            }
         }
     }
 }
