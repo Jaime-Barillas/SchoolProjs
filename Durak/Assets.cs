@@ -39,6 +39,8 @@ namespace Durak
 
         // TODO: autogen from Suits and Ranks enums.
         // NOTE: The image files use a singular suit name instead of plural >_<
+        // The following are mappings from the part of the file name for the
+        // textures to the respective Suit/Rank enum member.
         public static Dictionary<string, Suit> validSuits = new Dictionary<string, Suit>
         {
             { "club", Suit.Clubs },
