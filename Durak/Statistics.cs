@@ -8,7 +8,7 @@ namespace Durak
         /// <summary>
         /// The name of the player.
         /// </summary>
-        public string PlayerName = "";
+        public string PlayerName = "Player";
         /// <summary>
         /// The number of games that the player has played since the last reset.
         /// </summary>
