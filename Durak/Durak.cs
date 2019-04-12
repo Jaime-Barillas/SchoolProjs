@@ -14,6 +14,13 @@ namespace Durak
 {
     public partial class Durak : Form
     {
+        Game game;
+        HumanPlayer player;
+        Player aiPlayer;
+        List<PictureBox> playerHand;
+        List<PictureBox> aiHand;
+        int selectedCard = -1;
+
         Statistics stats;
 
         public Durak()
@@ -36,6 +43,8 @@ namespace Durak
             btnMainMenuStats.MouseLeave += MouseLeaveTextColour;
             btnStatsReset.MouseEnter    += MouseEnterTextColour;
             btnStatsReset.MouseLeave    += MouseLeaveTextColour;
+            btnGameConcede.MouseEnter   += MouseEnterTextColour;
+            btnGameConcede.MouseLeave   += MouseLeaveTextColour;
         }
 
         /// <summary>
@@ -86,7 +95,9 @@ namespace Durak
         /// </summary>
         private void btnPlay_Click(object sender, EventArgs e)
         {
-
+            SetupGameScreen();
+            tlpMainMenu.Hide();
+            tlpGameScreen.Show();
         }
 
         /// <summary>
@@ -182,6 +193,86 @@ namespace Durak
 
                 UpdateStats();
             }
+        }
+
+        /// <summary>
+        /// Sets up the game screen and the game.
+        /// </summary>
+        private void SetupGameScreen()
+        {
+            // Game creation
+            game = new Game();
+            player = (HumanPlayer)game.Players[0];
+            aiPlayer = game.Players[1];
+
+            // GUI setup
+            picTalon.Image = Assets.CardBackside;
+            picTrumpCard.Image = Assets.Cards[game.Talon.Trump.Suit][game.Talon.Trump.Rank];
+
+            playerHand = new List<PictureBox>();
+            foreach (Card card in player.Hand)
+            {
+                PictureBox cardImage = new PictureBox();
+                cardImage.Image = Assets.Cards[card.Suit][card.Rank];
+                cardImage.Size = new Size(150, 225);
+                cardImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                cardImage.Scale(new SizeF(0.5f, 0.5f));
+
+                cardImage.Click += CardImage_Click;
+                cardImage.Click += (pic, e) => { selectedCard = playerHand.IndexOf(pic as PictureBox); game.Continue(); };
+
+                playerHand.Add(cardImage);
+                flpPlayerHand.Controls.Add(cardImage);
+            }
+
+            aiHand = new List<PictureBox>();
+            foreach (Card card in aiPlayer.Hand)
+            {
+                PictureBox cardImage = new PictureBox();
+                cardImage.Image = Assets.CardBackside;
+                cardImage.Size = new Size(150, 225);
+                cardImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                cardImage.Scale(new SizeF(0.5f, 0.5f));
+
+                aiHand.Add(cardImage);
+                flpAIHand.Controls.Add(cardImage);
+            }
+
+            // Subscribe to new game's events.
+            game.End += Game_End;
+
+            player.AcceptInput += (p, e) => { btnGameConcede.Enabled = true; e.Action = selectedCard; };
+            btnGameConcede.Enabled = true;
+        }
+
+        private void CardImage_Click(object sender, EventArgs e)
+        {
+            selectedCard = playerHand.IndexOf(sender as PictureBox);
+
+            flpActiveCards.Controls.Clear();
+            flpActiveCards.Controls.Add(playerHand[selectedCard]);
+
+            game.Continue();
+        }
+
+        /// <summary>
+        /// Concedes a defense to the attacker.
+        /// </summary>
+        private void btnGameConcede_Click(object sender, EventArgs e)
+        {
+            // No action will signify to the game that the player
+            // gives up the defense.
+            selectedCard = Player.NO_ACTION;
+            game.Continue();
+        }
+
+        /// <summary>
+        /// Return to the main menu after displaying a message.
+        /// </summary>
+        private void Game_End(object sender, GameLogEventArgs e)
+        {
+            tlpGameScreen.Hide();
+            tlpMainMenu.Show();
         }
     }
 }
