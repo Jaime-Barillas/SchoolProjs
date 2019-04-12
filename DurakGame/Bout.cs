@@ -122,6 +122,9 @@ namespace DurakGame
             Defender.Prompt -= OnPromptDefender;
             Defender.Concede -= OnConcede;
             Defender.HandEmpty -= OnHandEmpty;
+
+            // Ensure that there is no acting player
+            ActingPlayer = null;
         }
 
         /// <summary>
