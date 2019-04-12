@@ -28,6 +28,11 @@ namespace DurakGame
         public Player Defender { get; private set; }
 
         /// <summary>
+        /// The player currently taking their turn, who will be prompted to act when Bout.Continue() is called next. Null if it is not a player's turn to act.
+        /// </summary>
+        public Player ActingPlayer { get; private set; } = null;
+
+        /// <summary>
         /// The player who has won the game. Initially null.
         /// </summary>
         public Player Winner { get; set; } = null;
@@ -216,48 +221,60 @@ namespace DurakGame
         /// </summary>
         public virtual void Continue()
         {
-            // Attacker's "turn".
-            if (AttackCardsPlayed.Count <= DefenseCardsPlayed.Count)
+            // Decide whose turn it is, if not already decided
+            if (ActingPlayer == null)
             {
-                OnReport(new GameLogEventArgs(string.Format("Attacker's turn - {0}", Attacker.Name)));
-                // Rebuild AI player decision matrix based on current game state
-                if (Attacker is AIPlayer)
+                // Attacker's "turn".
+                if (AttackCardsPlayed.Count <= DefenseCardsPlayed.Count)
                 {
-                    (Attacker as AIPlayer).InitializeMatrix(AttackCardsPlayed.Count == 0);  // The player MUST play at least one attack
-                    List<int> validAttacks = new List<int>();
-                    foreach(Card card in Attacker.Hand)
+                    ActingPlayer = Attacker;
+                    OnReport(new GameLogEventArgs(string.Format("Attacker's turn - {0}", Attacker.Name)));
+                    // Rebuild AI player decision matrix based on current game state
+                    if (Attacker is AIPlayer)
                     {
-                        if (IsValidAttack(card))
+                        (Attacker as AIPlayer).InitializeMatrix(AttackCardsPlayed.Count == 0);  // The player MUST play at least one attack
+                        List<int> validAttacks = new List<int>();
+                        foreach (Card card in Attacker.Hand)
                         {
-                            validAttacks.Add(Attacker.Hand.IndexOf(card));
+                            if (IsValidAttack(card))
+                            {
+                                validAttacks.Add(Attacker.Hand.IndexOf(card));
+                            }
                         }
+                        (Attacker as AIPlayer).AddDecisionsToMatrix(validAttacks.ToArray());
                     }
-                    (Attacker as AIPlayer).AddDecisionsToMatrix(validAttacks.ToArray());
-                }
 
-                // Prompt attacker to select an option.
-                Attacker.PromptAction();
+                    // Prompt attacker to select an option.
+                    //Attacker.PromptAction();
+                }
+                // Defender's "turn".
+                else
+                {
+                    ActingPlayer = Defender;
+                    OnReport(new GameLogEventArgs(string.Format("Defender's turn - {0}", Defender.Name)));
+                    // Rebuild AI player decision matrix based on current game state
+                    if (Defender is AIPlayer)
+                    {
+                        (Defender as AIPlayer).InitializeMatrix();
+                        List<int> validDefends = new List<int>();
+                        foreach (Card card in Defender.Hand)
+                        {
+                            if (card.CanDefendAgainst(AttackCardsPlayed.Last(), this.Game.TrumpSuit))
+                            {
+                                validDefends.Add(Defender.Hand.IndexOf(card));
+                            }
+                        }
+                        (Defender as AIPlayer).AddDecisionsToMatrix(validDefends.ToArray());
+                    }
+
+                    //Defender.PromptAction();
+                }
             }
-            // Defender's "turn".
+            // If the acting player was already known, prompt them to act.
             else
             {
-                OnReport(new GameLogEventArgs(string.Format("Defender's turn - {0}", Defender.Name)));
-                // Rebuild AI player decision matrix based on current game state
-                if (Defender is AIPlayer)
-                {
-                    (Defender as AIPlayer).InitializeMatrix();
-                    List<int> validDefends = new List<int>();
-                    foreach(Card card in Defender.Hand)
-                    {
-                        if (card.CanDefendAgainst(AttackCardsPlayed.Last(), this.Game.TrumpSuit))
-                        {
-                            validDefends.Add(Defender.Hand.IndexOf(card));
-                        }
-                    }
-                    (Defender as AIPlayer).AddDecisionsToMatrix(validDefends.ToArray());
-                }
-
-                Defender.PromptAction();
+                ActingPlayer.PromptAction();
+                ActingPlayer = null;
             }
 
             // Check if "end of bout" conditions have been met
