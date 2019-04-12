@@ -54,9 +54,9 @@
             this.lblNumberOfLosses = new System.Windows.Forms.Label();
             this.tlpGameScreen = new System.Windows.Forms.TableLayoutPanel();
             this.flpPlayerHand = new System.Windows.Forms.FlowLayoutPanel();
+            this.flpAIHand = new System.Windows.Forms.FlowLayoutPanel();
             this.picTalon = new System.Windows.Forms.PictureBox();
             this.picTrumpCard = new System.Windows.Forms.PictureBox();
-            this.flpAIHand = new System.Windows.Forms.FlowLayoutPanel();
             this.btnGameConcede = new System.Windows.Forms.Button();
             this.flpActiveCards = new System.Windows.Forms.FlowLayoutPanel();
             this.tlpMainMenu.SuspendLayout();
@@ -422,10 +422,10 @@
             this.tlpGameScreen.Location = new System.Drawing.Point(0, 0);
             this.tlpGameScreen.Name = "tlpGameScreen";
             this.tlpGameScreen.RowCount = 4;
-            this.tlpGameScreen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
-            this.tlpGameScreen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
-            this.tlpGameScreen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
-            this.tlpGameScreen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.99813F));
+            this.tlpGameScreen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77789F));
+            this.tlpGameScreen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77789F));
+            this.tlpGameScreen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 27.77789F));
+            this.tlpGameScreen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66632F));
             this.tlpGameScreen.Size = new System.Drawing.Size(810, 476);
             this.tlpGameScreen.TabIndex = 3;
             this.tlpGameScreen.Visible = false;
@@ -433,15 +433,23 @@
             // flpPlayerHand
             // 
             this.flpPlayerHand.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpPlayerHand.Location = new System.Drawing.Point(165, 241);
+            this.flpPlayerHand.Location = new System.Drawing.Point(165, 267);
             this.flpPlayerHand.Name = "flpPlayerHand";
-            this.flpPlayerHand.Size = new System.Drawing.Size(642, 113);
+            this.flpPlayerHand.Size = new System.Drawing.Size(642, 126);
             this.flpPlayerHand.TabIndex = 1;
+            // 
+            // flpAIHand
+            // 
+            this.flpAIHand.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpAIHand.Location = new System.Drawing.Point(165, 3);
+            this.flpAIHand.Name = "flpAIHand";
+            this.flpAIHand.Size = new System.Drawing.Size(642, 126);
+            this.flpAIHand.TabIndex = 4;
             // 
             // picTalon
             // 
             this.picTalon.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.picTalon.Location = new System.Drawing.Point(6, 6);
+            this.picTalon.Location = new System.Drawing.Point(6, 19);
             this.picTalon.Name = "picTalon";
             this.tlpGameScreen.SetRowSpan(this.picTalon, 2);
             this.picTalon.Size = new System.Drawing.Size(150, 225);
@@ -452,21 +460,13 @@
             // picTrumpCard
             // 
             this.picTrumpCard.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.picTrumpCard.Location = new System.Drawing.Point(6, 244);
+            this.picTrumpCard.Location = new System.Drawing.Point(6, 267);
             this.picTrumpCard.Name = "picTrumpCard";
             this.tlpGameScreen.SetRowSpan(this.picTrumpCard, 2);
-            this.picTrumpCard.Size = new System.Drawing.Size(150, 225);
+            this.picTrumpCard.Size = new System.Drawing.Size(150, 206);
             this.picTrumpCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picTrumpCard.TabIndex = 2;
             this.picTrumpCard.TabStop = false;
-            // 
-            // flpAIHand
-            // 
-            this.flpAIHand.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpAIHand.Location = new System.Drawing.Point(165, 3);
-            this.flpAIHand.Name = "flpAIHand";
-            this.flpAIHand.Size = new System.Drawing.Size(642, 113);
-            this.flpAIHand.TabIndex = 4;
             // 
             // btnGameConcede
             // 
@@ -474,21 +474,20 @@
             this.btnGameConcede.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
             this.btnGameConcede.Enabled = false;
             this.btnGameConcede.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGameConcede.Location = new System.Drawing.Point(411, 367);
+            this.btnGameConcede.Location = new System.Drawing.Point(411, 406);
             this.btnGameConcede.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.btnGameConcede.Name = "btnGameConcede";
             this.btnGameConcede.Size = new System.Drawing.Size(150, 56);
             this.btnGameConcede.TabIndex = 5;
             this.btnGameConcede.Text = "Concede";
             this.btnGameConcede.UseVisualStyleBackColor = false;
-            this.btnGameConcede.Click += new System.EventHandler(this.btnGameConcede_Click);
             // 
             // flpActiveCards
             // 
             this.flpActiveCards.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpActiveCards.Location = new System.Drawing.Point(165, 122);
+            this.flpActiveCards.Location = new System.Drawing.Point(165, 135);
             this.flpActiveCards.Name = "flpActiveCards";
-            this.flpActiveCards.Size = new System.Drawing.Size(642, 113);
+            this.flpActiveCards.Size = new System.Drawing.Size(642, 126);
             this.flpActiveCards.TabIndex = 6;
             // 
             // Durak

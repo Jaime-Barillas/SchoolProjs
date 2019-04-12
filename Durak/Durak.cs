@@ -20,6 +20,7 @@ namespace Durak
         List<PictureBox> playerHand;
         List<PictureBox> aiHand;
         int selectedCard = -1;
+        bool isAttacking;
 
         Statistics stats;
 
@@ -45,6 +46,7 @@ namespace Durak
             btnStatsReset.MouseLeave    += MouseLeaveTextColour;
             btnGameConcede.MouseEnter   += MouseEnterTextColour;
             btnGameConcede.MouseLeave   += MouseLeaveTextColour;
+            btnGameConcede.Click        += CardImage_Click;
         }
 
         /// <summary>
@@ -219,7 +221,6 @@ namespace Durak
                 cardImage.Scale(new SizeF(0.5f, 0.5f));
 
                 cardImage.Click += CardImage_Click;
-                cardImage.Click += (pic, e) => { selectedCard = playerHand.IndexOf(pic as PictureBox); game.Continue(); };
 
                 playerHand.Add(cardImage);
                 flpPlayerHand.Controls.Add(cardImage);
@@ -238,32 +239,102 @@ namespace Durak
                 flpAIHand.Controls.Add(cardImage);
             }
 
-            // Subscribe to new game's events.
+            // Subscribe to events.
+            player.Attack += AddPlayedCard;
+            player.Defend += AddPlayedCard;
+            aiPlayer.Attack += AddPlayedCard;
+            aiPlayer.Defend += AddPlayedCard;
+
+            // TODO: sub to events in new bout.
+            game.CurrentBout.Report += PrepForTurn;
+            game.CurrentBout.End += (bout, e) => flpActiveCards.Controls.Clear();
             game.End += Game_End;
 
             player.AcceptInput += (p, e) => { btnGameConcede.Enabled = true; e.Action = selectedCard; };
             btnGameConcede.Enabled = true;
-        }
-
-        private void CardImage_Click(object sender, EventArgs e)
-        {
-            selectedCard = playerHand.IndexOf(sender as PictureBox);
-
-            flpActiveCards.Controls.Clear();
-            flpActiveCards.Controls.Add(playerHand[selectedCard]);
 
             game.Continue();
         }
 
         /// <summary>
-        /// Concedes a defense to the attacker.
+        /// Add the played card to the center field.
         /// </summary>
-        private void btnGameConcede_Click(object sender, EventArgs e)
+        private void AddPlayedCard(object sender, GameActionEventArgs e)
         {
-            // No action will signify to the game that the player
-            // gives up the defense.
-            selectedCard = Player.NO_ACTION;
-            game.Continue();
+            if (sender is AIPlayer && e.Action != Player.NO_ACTION)
+            {
+                // Change the card image from the backside to the frontside.
+                Card card = aiPlayer.Hand[e.Action];
+                aiHand[e.Action].Image = Assets.Cards[card.Suit][card.Rank];
+
+                // Add the card to the center field and remove from the list of images.
+                flpActiveCards.Controls.Add(aiHand[e.Action]);
+                aiHand.RemoveAt(e.Action);
+            }
+            else if (e.Action != Player.NO_ACTION)
+            {
+                flpActiveCards.Controls.Add(playerHand[e.Action]);
+                playerHand.RemoveAt(e.Action);
+            }
+        }
+
+        /// <summary>
+        /// Determine whether the user is attacking or defending, disable cards they can't use.
+        /// </summary>
+        private void PrepForTurn(object sender, GameLogEventArgs e)
+        {
+            Bout bout = (Bout)sender;
+            isAttacking = bout.Attacker == player;
+
+            // When attacking, the concede button is disabled on the first turn, then enabled on
+            // subsequent turns.
+            if (isAttacking)
+            {
+                if (bout.AttackCardsPlayed.Count == 0)
+                {
+                    btnGameConcede.Enabled = false;
+                }
+                else
+                {
+                    btnGameConcede.Enabled = true;
+                }
+
+                // Enable clicking only valid cards.
+                for (int cardIndex = 0; cardIndex < player.Hand.Count; cardIndex++)
+                {
+                    playerHand[cardIndex].Enabled = bout.IsValidAttack(player.Hand[cardIndex]);
+                }
+            }
+            else
+            {
+                // The button should be enabled always when defending.
+                btnGameConcede.Enabled = true;
+
+                // Enable clicking only valid cards.
+                for (int cardIndex = 0; cardIndex < player.Hand.Count; cardIndex++)
+                {
+                    playerHand[cardIndex].Enabled = bout.IsValidDefense(player.Hand[cardIndex]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Advance one turn of the game per click.
+        /// </summary>
+        private void CardImage_Click(object sender, EventArgs e)
+        {
+            selectedCard = playerHand.IndexOf(sender as PictureBox);
+
+            if (selectedCard >= 0 && selectedCard < playerHand.Count)
+            {
+                flpActiveCards.Controls.Add(playerHand[selectedCard]);
+            }
+
+            // Continue turns within the game until it is the human player's turn.
+            do
+            {
+                game.Continue();
+            } while (game.CurrentBout.ActingPlayer != player) ;
         }
 
         /// <summary>
