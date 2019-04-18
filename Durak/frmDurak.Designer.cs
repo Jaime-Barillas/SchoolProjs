@@ -214,6 +214,7 @@
             // cmbCardSkins
             // 
             this.cmbCardSkins.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cmbCardSkins.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCardSkins.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbCardSkins.FormattingEnabled = true;
             this.cmbCardSkins.Location = new System.Drawing.Point(126, 280);
