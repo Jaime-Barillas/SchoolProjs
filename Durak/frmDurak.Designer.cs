@@ -1,6 +1,6 @@
 ﻿namespace Durak
 {
-    partial class Durak
+    partial class frmDurak
     {
         /// <summary>
         /// Required designer variable.
@@ -53,12 +53,12 @@
             this.lblNumberOfWins = new System.Windows.Forms.Label();
             this.lblNumberOfLosses = new System.Windows.Forms.Label();
             this.tlpGameScreen = new System.Windows.Forms.TableLayoutPanel();
-            this.flpPlayerHand = new System.Windows.Forms.FlowLayoutPanel();
-            this.flpAIHand = new System.Windows.Forms.FlowLayoutPanel();
             this.picTalon = new System.Windows.Forms.PictureBox();
             this.picTrumpCard = new System.Windows.Forms.PictureBox();
             this.btnGameConcede = new System.Windows.Forms.Button();
-            this.flpActiveCards = new System.Windows.Forms.FlowLayoutPanel();
+            this.cpPlayerHand = new Durak.CardPanel();
+            this.cpAIHand = new Durak.CardPanel();
+            this.cpActiveCards = new Durak.CardPanel();
             this.tlpMainMenu.SuspendLayout();
             this.tlpOptionMenu.SuspendLayout();
             this.grpVariations.SuspendLayout();
@@ -412,12 +412,12 @@
             this.tlpGameScreen.ColumnCount = 2;
             this.tlpGameScreen.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tlpGameScreen.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tlpGameScreen.Controls.Add(this.flpPlayerHand, 1, 2);
-            this.tlpGameScreen.Controls.Add(this.flpAIHand, 1, 0);
             this.tlpGameScreen.Controls.Add(this.picTalon, 0, 0);
             this.tlpGameScreen.Controls.Add(this.picTrumpCard, 0, 2);
             this.tlpGameScreen.Controls.Add(this.btnGameConcede, 1, 3);
-            this.tlpGameScreen.Controls.Add(this.flpActiveCards, 1, 1);
+            this.tlpGameScreen.Controls.Add(this.cpPlayerHand, 1, 2);
+            this.tlpGameScreen.Controls.Add(this.cpAIHand, 1, 0);
+            this.tlpGameScreen.Controls.Add(this.cpActiveCards, 1, 1);
             this.tlpGameScreen.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpGameScreen.Location = new System.Drawing.Point(0, 0);
             this.tlpGameScreen.Name = "tlpGameScreen";
@@ -429,22 +429,6 @@
             this.tlpGameScreen.Size = new System.Drawing.Size(810, 476);
             this.tlpGameScreen.TabIndex = 3;
             this.tlpGameScreen.Visible = false;
-            // 
-            // flpPlayerHand
-            // 
-            this.flpPlayerHand.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpPlayerHand.Location = new System.Drawing.Point(165, 267);
-            this.flpPlayerHand.Name = "flpPlayerHand";
-            this.flpPlayerHand.Size = new System.Drawing.Size(642, 126);
-            this.flpPlayerHand.TabIndex = 1;
-            // 
-            // flpAIHand
-            // 
-            this.flpAIHand.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpAIHand.Location = new System.Drawing.Point(165, 3);
-            this.flpAIHand.Name = "flpAIHand";
-            this.flpAIHand.Size = new System.Drawing.Size(642, 126);
-            this.flpAIHand.TabIndex = 4;
             // 
             // picTalon
             // 
@@ -482,26 +466,61 @@
             this.btnGameConcede.Text = "Concede";
             this.btnGameConcede.UseVisualStyleBackColor = false;
             // 
-            // flpActiveCards
+            // cpPlayerHand
             // 
-            this.flpActiveCards.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpActiveCards.Location = new System.Drawing.Point(165, 135);
-            this.flpActiveCards.Name = "flpActiveCards";
-            this.flpActiveCards.Size = new System.Drawing.Size(642, 126);
-            this.flpActiveCards.TabIndex = 6;
+            this.cpPlayerHand.AutoSize = true;
+            this.cpPlayerHand.CardPadding = 5;
+            this.cpPlayerHand.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cpPlayerHand.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.cpPlayerHand.LabelColour = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.cpPlayerHand.LabelFont = new System.Drawing.Font("Impact", 24F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cpPlayerHand.LabelText = "";
+            this.cpPlayerHand.Location = new System.Drawing.Point(165, 267);
+            this.cpPlayerHand.Name = "cpPlayerHand";
+            this.cpPlayerHand.Size = new System.Drawing.Size(642, 126);
+            this.cpPlayerHand.TabIndex = 7;
             // 
-            // Durak
+            // cpAIHand
+            // 
+            this.cpAIHand.AutoSize = true;
+            this.cpAIHand.CardPadding = 5;
+            this.cpAIHand.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cpAIHand.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.cpAIHand.LabelColour = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.cpAIHand.LabelFont = new System.Drawing.Font("Impact", 24F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cpAIHand.LabelText = "";
+            this.cpAIHand.Location = new System.Drawing.Point(165, 3);
+            this.cpAIHand.Name = "cpAIHand";
+            this.cpAIHand.Size = new System.Drawing.Size(642, 126);
+            this.cpAIHand.TabIndex = 8;
+            // 
+            // cpActiveCards
+            // 
+            this.cpActiveCards.AutoSize = true;
+            this.cpActiveCards.CardPadding = 5;
+            this.cpActiveCards.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cpActiveCards.Font = new System.Drawing.Font("Impact", 24F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cpActiveCards.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.cpActiveCards.LabelColour = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
+            this.cpActiveCards.LabelFont = new System.Drawing.Font("Impact", 24F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cpActiveCards.LabelText = "";
+            this.cpActiveCards.Location = new System.Drawing.Point(165, 135);
+            this.cpActiveCards.Name = "cpActiveCards";
+            this.cpActiveCards.Size = new System.Drawing.Size(642, 126);
+            this.cpActiveCards.TabIndex = 9;
+            // 
+            // frmDurak
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(73)))), ((int)(((byte)(115)))));
             this.ClientSize = new System.Drawing.Size(810, 476);
             this.Controls.Add(this.tlpGameScreen);
+            this.Controls.Add(this.tlpMainMenu);
             this.Controls.Add(this.tlpStatsMenu);
             this.Controls.Add(this.tlpOptionMenu);
-            this.Controls.Add(this.tlpMainMenu);
             this.MinimumSize = new System.Drawing.Size(720, 450);
-            this.Name = "Durak";
+            this.Name = "frmDurak";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "OOP 4200 Durak";
             this.Load += new System.EventHandler(this.Durak_Load);
@@ -514,6 +533,7 @@
             this.tlpStatsMenu.ResumeLayout(false);
             this.tlpStatsMenu.PerformLayout();
             this.tlpGameScreen.ResumeLayout(false);
+            this.tlpGameScreen.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picTalon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picTrumpCard)).EndInit();
             this.ResumeLayout(false);
@@ -548,11 +568,11 @@
         private System.Windows.Forms.Label lblNumberOfLosses;
         private System.Windows.Forms.TableLayoutPanel tlpGameScreen;
         private System.Windows.Forms.PictureBox picTalon;
-        private System.Windows.Forms.FlowLayoutPanel flpPlayerHand;
         private System.Windows.Forms.PictureBox picTrumpCard;
-        private System.Windows.Forms.FlowLayoutPanel flpAIHand;
         private System.Windows.Forms.Button btnGameConcede;
-        private System.Windows.Forms.FlowLayoutPanel flpActiveCards;
+        private CardPanel cpPlayerHand;
+        private CardPanel cpAIHand;
+        private CardPanel cpActiveCards;
     }
 }
 

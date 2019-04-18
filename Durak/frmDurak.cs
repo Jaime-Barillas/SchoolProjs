@@ -12,19 +12,19 @@ using DurakGame;
 
 namespace Durak
 {
-    public partial class Durak : Form
+    public partial class frmDurak : Form
     {
         Game game;
         HumanPlayer player;
         Player aiPlayer;
         List<PictureBox> playerHand;
         List<PictureBox> aiHand;
-        int selectedCard = -1;
+        int selectedCard = Player.NO_ACTION;
         bool isAttacking;
 
         Statistics stats;
 
-        public Durak()
+        public frmDurak()
         {
             InitializeComponent();
 
@@ -212,42 +212,22 @@ namespace Durak
             picTrumpCard.Image = Assets.Cards[game.Talon.Trump.Suit][game.Talon.Trump.Rank];
 
             playerHand = new List<PictureBox>();
-            foreach (Card card in player.Hand)
-            {
-                PictureBox cardImage = new PictureBox();
-                cardImage.Image = Assets.Cards[card.Suit][card.Rank];
-                cardImage.Size = new Size(150, 225);
-                cardImage.SizeMode = PictureBoxSizeMode.StretchImage;
-                cardImage.Scale(new SizeF(0.5f, 0.5f));
-
-                cardImage.Click += CardImage_Click;
-
-                playerHand.Add(cardImage);
-                flpPlayerHand.Controls.Add(cardImage);
-            }
+            FillPlayerHand(player);
 
             aiHand = new List<PictureBox>();
-            foreach (Card card in aiPlayer.Hand)
-            {
-                PictureBox cardImage = new PictureBox();
-                cardImage.Image = Assets.CardBackside;
-                cardImage.Size = new Size(150, 225);
-                cardImage.SizeMode = PictureBoxSizeMode.StretchImage;
-                cardImage.Scale(new SizeF(0.5f, 0.5f));
-
-                aiHand.Add(cardImage);
-                flpAIHand.Controls.Add(cardImage);
-            }
+            FillPlayerHand(aiPlayer);
 
             // Subscribe to events.
             player.Attack += AddPlayedCard;
             player.Defend += AddPlayedCard;
+            player.PickUp += (s, e) => FillPlayerHand(player);
             aiPlayer.Attack += AddPlayedCard;
             aiPlayer.Defend += AddPlayedCard;
+            aiPlayer.PickUp += (s, e) => FillPlayerHand(aiPlayer);
 
             // TODO: sub to events in new bout.
             game.CurrentBout.Report += PrepForTurn;
-            game.CurrentBout.End += (bout, e) => flpActiveCards.Controls.Clear();
+            game.NewBout += Game_NewBout;
             game.End += Game_End;
 
             player.AcceptInput += (p, e) => { btnGameConcede.Enabled = true; e.Action = selectedCard; };
@@ -257,24 +237,44 @@ namespace Durak
         }
 
         /// <summary>
-        /// Add the played card to the center field.
+        /// Fill the player's hand with cards. Refills the layout panel and the picbox list.
         /// </summary>
-        private void AddPlayedCard(object sender, GameActionEventArgs e)
+        /// <param name="player">The player whose hand was refilled with cards.</param>
+        private void FillPlayerHand(Player playerToFill)
         {
-            if (sender is AIPlayer && e.Action != Player.NO_ACTION)
-            {
-                // Change the card image from the backside to the frontside.
-                Card card = aiPlayer.Hand[e.Action];
-                aiHand[e.Action].Image = Assets.Cards[card.Suit][card.Rank];
+            List<PictureBox> hand;
+            CardPanel cardDisplay;
 
-                // Add the card to the center field and remove from the list of images.
-                flpActiveCards.Controls.Add(aiHand[e.Action]);
-                aiHand.RemoveAt(e.Action);
-            }
-            else if (e.Action != Player.NO_ACTION)
+            // Grab the specified player's corresponding
+            // list of card images and display container...
+            if (playerToFill == player)
             {
-                flpActiveCards.Controls.Add(playerHand[e.Action]);
-                playerHand.RemoveAt(e.Action);
+                hand = playerHand;
+                cardDisplay = cpPlayerHand;
+            }
+            else
+            {
+                hand = aiHand;
+                cardDisplay = cpAIHand;
+            }
+
+            // Clear and repopulate them.
+            hand.Clear();
+            cardDisplay.Reset();
+            foreach (Card card in playerToFill.Hand)
+            {
+                PictureBox cardImage = new PictureBox
+                {
+                    Image = Assets.Cards[card.Suit][card.Rank],
+                    Size = new Size(150, 225),
+                    SizeMode = PictureBoxSizeMode.StretchImage
+                };
+                cardImage.Scale(new SizeF(0.5f, 0.5f));
+
+                cardImage.Click += CardImage_Click;  // Add click functionality.
+
+                hand.Add(cardImage);
+                cardDisplay.Controls.Add(cardImage);
             }
         }
 
@@ -290,6 +290,8 @@ namespace Durak
             // subsequent turns.
             if (isAttacking)
             {
+                cpActiveCards.LabelText = "Attack!";
+
                 if (bout.AttackCardsPlayed.Count == 0)
                 {
                     btnGameConcede.Enabled = false;
@@ -307,14 +309,45 @@ namespace Durak
             }
             else
             {
-                // The button should be enabled always when defending.
+                cpActiveCards.LabelText = "Defend!";
+
+                // The button should always be enabled when defending.
                 btnGameConcede.Enabled = true;
 
                 // Enable clicking only valid cards.
-                for (int cardIndex = 0; cardIndex < player.Hand.Count; cardIndex++)
+                // We need to be sure that the next player to go is the user
+                // otherwise we could end up in a situation where the we try
+                // to find out if a card can defend when there are no attacking
+                // cards.
+                if (bout.ActingPlayer == player)
                 {
-                    playerHand[cardIndex].Enabled = bout.IsValidDefense(player.Hand[cardIndex]);
+                    for (int cardIndex = 0; cardIndex < player.Hand.Count; cardIndex++)
+                    {
+                        playerHand[cardIndex].Enabled = bout.IsValidDefense(player.Hand[cardIndex]);
+                    }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Add the played card to the center field.
+        /// </summary>
+        private void AddPlayedCard(object sender, GameActionEventArgs e)
+        {
+            if (sender == aiPlayer && e.Action != Player.NO_ACTION)
+            {
+                // Change the card image from the backside to the frontside.
+                Card card = aiPlayer.Hand[e.Action];
+                aiHand[e.Action].Image = Assets.Cards[card.Suit][card.Rank];
+
+                // Add the card to the center field and remove from the list of images.
+                cpActiveCards.Controls.Add(aiHand[e.Action]);
+                aiHand.RemoveAt(e.Action);
+            }
+            else if (e.Action != Player.NO_ACTION)
+            {
+                cpActiveCards.Controls.Add(playerHand[e.Action]);
+                playerHand.RemoveAt(e.Action);
             }
         }
 
@@ -327,14 +360,14 @@ namespace Durak
 
             if (selectedCard >= 0 && selectedCard < playerHand.Count)
             {
-                flpActiveCards.Controls.Add(playerHand[selectedCard]);
+                cpActiveCards.Controls.Add(playerHand[selectedCard]);
             }
 
             // Continue turns within the game until it is the human player's turn.
             do
             {
                 game.Continue();
-            } while (game.CurrentBout.ActingPlayer != player) ;
+            } while (game.CurrentBout.ActingPlayer != player && !game.IsOver) ;
         }
 
         /// <summary>
@@ -342,8 +375,44 @@ namespace Durak
         /// </summary>
         private void Game_End(object sender, GameLogEventArgs e)
         {
+            // Clear everything.
+            cpActiveCards.Reset();
+            cpPlayerHand.Reset();
+            cpAIHand.Reset();
+            playerHand.Clear();
+            aiHand.Clear();
+
+            // Update stats.
+            stats.NumberOfGames++;
+            if (game.Fool == player)
+            {
+                stats.Losses++;
+            }
+            else
+            {
+                stats.Wins++;
+            }
+            UpdateStats();
+
+            // Back to the main menu!
             tlpGameScreen.Hide();
             tlpMainMenu.Show();
+        }
+
+        /// <summary>
+        /// Sub to the correct events whenever a new bout happens.
+        /// </summary>
+        private void Game_NewBout(object sender, GameLogEventArgs e)
+        {
+            // A bug in the game lib makes it so that the first bout does not
+            // fire a "bout end" event, so we clear the playing field on
+            // "new bout" instead of "bout end".
+            cpActiveCards.Reset();
+
+            selectedCard = Player.NO_ACTION;
+
+            // Sub to the new bout's events.
+            game.CurrentBout.Report += PrepForTurn;
         }
     }
 }

@@ -47,13 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets.cs" />
-    <Compile Include="Durak.cs">
+    <Compile Include="CardPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="frmDurak.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Durak.Designer.cs">
-      <DependentUpon>Durak.cs</DependentUpon>
+    <Compile Include="frmDurak.Designer.cs">
+      <DependentUpon>frmDurak.cs</DependentUpon>
     </Compile>
-    <Compile Include="DurakLog.cs" />
     <Compile Include="frmResetStats.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,8 +65,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Statistics.cs" />
-    <EmbeddedResource Include="Durak.resx">
-      <DependentUpon>Durak.cs</DependentUpon>
+    <EmbeddedResource Include="frmDurak.resx">
+      <DependentUpon>frmDurak.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmResetStats.resx">
       <DependentUpon>frmResetStats.cs</DependentUpon>
