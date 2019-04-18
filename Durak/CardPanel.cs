@@ -10,9 +10,7 @@ namespace Durak
 {
     public class CardPanel : Panel
     {
-        // BUFFER is used when determining whether the cards should be squished
-        // together to make them fit in the panel. (helps avoid a little math
-        // using the padding property)
+        // Padding for cards when they are not squished together.
         public int CardPadding { get; set; } = 5;
         public string LabelText
         {

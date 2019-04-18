@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tlpMainMenu = new System.Windows.Forms.TableLayoutPanel();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
@@ -36,7 +37,6 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.tlpOptionMenu = new System.Windows.Forms.TableLayoutPanel();
             this.grpVariations = new System.Windows.Forms.GroupBox();
-            this.clbVariationsList = new System.Windows.Forms.CheckedListBox();
             this.grpCardSkins = new System.Windows.Forms.GroupBox();
             this.cmbCardSkins = new System.Windows.Forms.ComboBox();
             this.picCardSkinPreview = new System.Windows.Forms.PictureBox();
@@ -59,6 +59,10 @@
             this.cpPlayerHand = new Durak.CardPanel();
             this.cpAIHand = new Durak.CardPanel();
             this.cpActiveCards = new Durak.CardPanel();
+            this.rdbSmallDeck = new System.Windows.Forms.RadioButton();
+            this.rdbStandardDeck = new System.Windows.Forms.RadioButton();
+            this.rdbLargeDeck = new System.Windows.Forms.RadioButton();
+            this.ttpTips = new System.Windows.Forms.ToolTip(this.components);
             this.tlpMainMenu.SuspendLayout();
             this.tlpOptionMenu.SuspendLayout();
             this.grpVariations.SuspendLayout();
@@ -179,7 +183,9 @@
             this.grpVariations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpVariations.Controls.Add(this.clbVariationsList);
+            this.grpVariations.Controls.Add(this.rdbLargeDeck);
+            this.grpVariations.Controls.Add(this.rdbStandardDeck);
+            this.grpVariations.Controls.Add(this.rdbSmallDeck);
             this.grpVariations.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpVariations.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
             this.grpVariations.Location = new System.Drawing.Point(3, 3);
@@ -187,25 +193,7 @@
             this.grpVariations.Size = new System.Drawing.Size(399, 402);
             this.grpVariations.TabIndex = 0;
             this.grpVariations.TabStop = false;
-            this.grpVariations.Text = "Variations";
-            // 
-            // clbVariationsList
-            // 
-            this.clbVariationsList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.clbVariationsList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(73)))), ((int)(((byte)(115)))));
-            this.clbVariationsList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clbVariationsList.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.clbVariationsList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(218)))), ((int)(((byte)(196)))));
-            this.clbVariationsList.FormattingEnabled = true;
-            this.clbVariationsList.Items.AddRange(new object[] {
-            "Passing Durak",
-            "Fool with Epaulettes"});
-            this.clbVariationsList.Location = new System.Drawing.Point(33, 49);
-            this.clbVariationsList.Name = "clbVariationsList";
-            this.clbVariationsList.Size = new System.Drawing.Size(341, 308);
-            this.clbVariationsList.TabIndex = 0;
+            this.grpVariations.Text = "Options";
             // 
             // grpCardSkins
             // 
@@ -509,16 +497,51 @@
             this.cpActiveCards.Size = new System.Drawing.Size(642, 126);
             this.cpActiveCards.TabIndex = 9;
             // 
+            // rdbSmallDeck
+            // 
+            this.rdbSmallDeck.AutoSize = true;
+            this.rdbSmallDeck.Location = new System.Drawing.Point(104, 49);
+            this.rdbSmallDeck.Name = "rdbSmallDeck";
+            this.rdbSmallDeck.Size = new System.Drawing.Size(135, 34);
+            this.rdbSmallDeck.TabIndex = 1;
+            this.rdbSmallDeck.Text = "Small Deck";
+            this.ttpTips.SetToolTip(this.rdbSmallDeck, "A 20 card deck for short games.");
+            this.rdbSmallDeck.UseVisualStyleBackColor = true;
+            // 
+            // rdbStandardDeck
+            // 
+            this.rdbStandardDeck.AutoSize = true;
+            this.rdbStandardDeck.Checked = true;
+            this.rdbStandardDeck.Location = new System.Drawing.Point(104, 132);
+            this.rdbStandardDeck.Name = "rdbStandardDeck";
+            this.rdbStandardDeck.Size = new System.Drawing.Size(170, 34);
+            this.rdbStandardDeck.TabIndex = 1;
+            this.rdbStandardDeck.TabStop = true;
+            this.rdbStandardDeck.Text = "Standard Deck";
+            this.ttpTips.SetToolTip(this.rdbStandardDeck, "A standard 36 card deck.");
+            this.rdbStandardDeck.UseVisualStyleBackColor = true;
+            // 
+            // rdbLargeDeck
+            // 
+            this.rdbLargeDeck.AutoSize = true;
+            this.rdbLargeDeck.Location = new System.Drawing.Point(104, 206);
+            this.rdbLargeDeck.Name = "rdbLargeDeck";
+            this.rdbLargeDeck.Size = new System.Drawing.Size(137, 34);
+            this.rdbLargeDeck.TabIndex = 1;
+            this.rdbLargeDeck.Text = "Large Deck";
+            this.ttpTips.SetToolTip(this.rdbLargeDeck, "A full 52 card deck for long games.");
+            this.rdbLargeDeck.UseVisualStyleBackColor = true;
+            // 
             // frmDurak
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(73)))), ((int)(((byte)(115)))));
             this.ClientSize = new System.Drawing.Size(810, 476);
+            this.Controls.Add(this.tlpOptionMenu);
             this.Controls.Add(this.tlpGameScreen);
             this.Controls.Add(this.tlpMainMenu);
             this.Controls.Add(this.tlpStatsMenu);
-            this.Controls.Add(this.tlpOptionMenu);
             this.MinimumSize = new System.Drawing.Size(720, 450);
             this.Name = "frmDurak";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -528,6 +551,7 @@
             this.tlpMainMenu.PerformLayout();
             this.tlpOptionMenu.ResumeLayout(false);
             this.grpVariations.ResumeLayout(false);
+            this.grpVariations.PerformLayout();
             this.grpCardSkins.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picCardSkinPreview)).EndInit();
             this.tlpStatsMenu.ResumeLayout(false);
@@ -553,7 +577,6 @@
         private System.Windows.Forms.GroupBox grpCardSkins;
         private System.Windows.Forms.ComboBox cmbCardSkins;
         private System.Windows.Forms.PictureBox picCardSkinPreview;
-        private System.Windows.Forms.CheckedListBox clbVariationsList;
         private System.Windows.Forms.Button btnMainMenu;
         private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.TableLayoutPanel tlpStatsMenu;
@@ -573,6 +596,10 @@
         private CardPanel cpPlayerHand;
         private CardPanel cpAIHand;
         private CardPanel cpActiveCards;
+        private System.Windows.Forms.RadioButton rdbLargeDeck;
+        private System.Windows.Forms.RadioButton rdbStandardDeck;
+        private System.Windows.Forms.RadioButton rdbSmallDeck;
+        private System.Windows.Forms.ToolTip ttpTips;
     }
 }
 

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using DurakGame;
@@ -14,15 +13,17 @@ namespace Durak
 {
     public partial class frmDurak : Form
     {
-        Game game;
-        HumanPlayer player;
-        Player aiPlayer;
-        List<PictureBox> playerHand;
-        List<PictureBox> aiHand;
-        int selectedCard = Player.NO_ACTION;
-        bool isAttacking;
+        private Game game;
+        private HumanPlayer player;
+        private Player aiPlayer;
+        private List<PictureBox> playerHand;
+        private List<PictureBox> aiHand;
+        private int selectedCard = Player.NO_ACTION;
+        private bool isAttacking;
 
-        Statistics stats;
+        // Statistics and logs
+        private Statistics stats;
+        private const string LOG_FILE = "./assets/log.txt";
 
         public frmDurak()
         {
@@ -72,6 +73,11 @@ namespace Durak
             // Load stats
             stats = Statistics.Read();
             UpdateStats();
+
+            // Setup logger.
+            Trace.Listeners.Add(new TextWriterTraceListener(LOG_FILE));
+            // Buffer from previous logs.
+            Trace.WriteLine("\n========================================");
 
             btnStatsReset.Click += btnStatsReset_Click;
         }
@@ -203,19 +209,42 @@ namespace Durak
         private void SetupGameScreen()
         {
             // Game creation
-            game = new Game();
+            Deck deck;
+            if (rdbSmallDeck.Checked)
+            {
+                deck = new Deck(Deck.Preset.SmallDeck);
+            }
+            else if (rdbStandardDeck.Checked)
+            {
+                deck = new Deck(Deck.Preset.DurakStandard);
+            }
+            else
+            {
+                deck = new Deck(Deck.Preset.FullDeck);
+            }
+            game = new Game(deck);
             player = (HumanPlayer)game.Players[0];
             aiPlayer = game.Players[1];
+
+            // Log game start.
+            Trace.Write($"Game Started for player {stats.PlayerName} on {DateTime.Now} with a ");
+            Trace.WriteLineIf(rdbSmallDeck.Checked, "Small Deck");
+            Trace.WriteLineIf(rdbStandardDeck.Checked, "Standard Deck");
+            Trace.WriteLineIf(rdbLargeDeck.Checked, "Large Deck");
+            Trace.WriteLine($"Trump Card: {game.Talon.Trump.Rank} of {game.Talon.Trump.Suit}");
 
             // GUI setup
             picTalon.Image = Assets.CardBackside;
             picTrumpCard.Image = Assets.Cards[game.Talon.Trump.Suit][game.Talon.Trump.Rank];
 
+            // Fill player hands.
+            Trace.WriteLine("Initial Hands\n-------------");
             playerHand = new List<PictureBox>();
             FillPlayerHand(player);
 
             aiHand = new List<PictureBox>();
             FillPlayerHand(aiPlayer);
+            Trace.WriteLine("-------------");
 
             // Subscribe to events.
             player.Attack += AddPlayedCard;
@@ -225,13 +254,17 @@ namespace Durak
             aiPlayer.Defend += AddPlayedCard;
             aiPlayer.PickUp += (s, e) => FillPlayerHand(aiPlayer);
 
-            // TODO: sub to events in new bout.
             game.CurrentBout.Report += PrepForTurn;
             game.NewBout += Game_NewBout;
             game.End += Game_End;
 
-            player.AcceptInput += (p, e) => { btnGameConcede.Enabled = true; e.Action = selectedCard; };
-            btnGameConcede.Enabled = true;
+            player.AcceptInput += (p, e) =>
+            {
+                // After the first card is chosen we can enable the concede button.
+                // It should be disabled on the first attack.
+                btnGameConcede.Enabled = true;
+                e.Action = selectedCard;
+            };
 
             game.Continue();
         }
@@ -251,11 +284,15 @@ namespace Durak
             {
                 hand = playerHand;
                 cardDisplay = cpPlayerHand;
+
+                Trace.Write(stats.PlayerName + "'s new hand: ");
             }
             else
             {
                 hand = aiHand;
                 cardDisplay = cpAIHand;
+
+                Trace.Write("AI Player's new hand: ");
             }
 
             // Clear and repopulate them.
@@ -263,19 +300,30 @@ namespace Durak
             cardDisplay.Reset();
             foreach (Card card in playerToFill.Hand)
             {
-                PictureBox cardImage = new PictureBox
+                PictureBox cardImage = new PictureBox();
+                cardImage.Size = new Size(150, 225);
+                cardImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                if (playerToFill == player)
                 {
-                    Image = Assets.Cards[card.Suit][card.Rank],
-                    Size = new Size(150, 225),
-                    SizeMode = PictureBoxSizeMode.StretchImage
-                };
-                cardImage.Scale(new SizeF(0.5f, 0.5f));
+                    cardImage.Image = Assets.Cards[card.Suit][card.Rank];
+                }
+                else
+                {
+                    cardImage.Image = Assets.CardBackside;
+                }
 
+                cardImage.Scale(new SizeF(0.5f, 0.5f)); // Make the card a bit smaller so it fits nicely.
                 cardImage.Click += CardImage_Click;  // Add click functionality.
 
                 hand.Add(cardImage);
                 cardDisplay.Controls.Add(cardImage);
+
+                Trace.Write(card.Rank + " of " + card.Suit);
+                Trace.WriteIf(card != playerToFill.Hand.Last(), ", ");
             }
+
+            // Move to next line.
+            Trace.WriteLine("");
         }
 
         /// <summary>
@@ -343,11 +391,21 @@ namespace Durak
                 // Add the card to the center field and remove from the list of images.
                 cpActiveCards.Controls.Add(aiHand[e.Action]);
                 aiHand.RemoveAt(e.Action);
+
+                Trace.WriteIf(isAttacking, "AI Player defends with: ");
+                Trace.WriteIf(!isAttacking, "AI Player attacks with: ");
+                Trace.WriteLine(card.Rank + " of " + card.Suit);
             }
             else if (e.Action != Player.NO_ACTION)
             {
+                Card card = player.Hand[e.Action];
+
                 cpActiveCards.Controls.Add(playerHand[e.Action]);
                 playerHand.RemoveAt(e.Action);
+
+                Trace.WriteIf(isAttacking, stats.PlayerName + " attacks with: ");
+                Trace.WriteIf(!isAttacking, stats.PlayerName + " defends with: ");
+                Trace.WriteLine(card.Rank + " of " + card.Suit);
             }
         }
 
@@ -371,6 +429,24 @@ namespace Durak
         }
 
         /// <summary>
+        /// Sub to the correct events whenever a new bout happens.
+        /// </summary>
+        private void Game_NewBout(object sender, GameLogEventArgs e)
+        {
+            // A bug in the game lib makes it so that the first bout does not
+            // fire a "bout end" event, so we clear the playing field on
+            // "new bout" instead of "bout end".
+            cpActiveCards.Reset();
+
+            selectedCard = Player.NO_ACTION;
+
+            // Sub to the new bout's events.
+            game.CurrentBout.Report += PrepForTurn;
+
+            Trace.WriteLine("New Bout\n--------");
+        }
+
+        /// <summary>
         /// Return to the main menu after displaying a message.
         /// </summary>
         private void Game_End(object sender, GameLogEventArgs e)
@@ -387,32 +463,25 @@ namespace Durak
             if (game.Fool == player)
             {
                 stats.Losses++;
+
+                MessageBox.Show("You're the fool!");
+                Trace.WriteLine($"Game End! {stats.PlayerName} loses");
             }
             else
             {
                 stats.Wins++;
+
+                MessageBox.Show("You win!");
+                Trace.WriteLine($"Game End! {stats.PlayerName} wins");
             }
             UpdateStats();
+
+            // Print log.
+            Trace.Flush();
 
             // Back to the main menu!
             tlpGameScreen.Hide();
             tlpMainMenu.Show();
-        }
-
-        /// <summary>
-        /// Sub to the correct events whenever a new bout happens.
-        /// </summary>
-        private void Game_NewBout(object sender, GameLogEventArgs e)
-        {
-            // A bug in the game lib makes it so that the first bout does not
-            // fire a "bout end" event, so we clear the playing field on
-            // "new bout" instead of "bout end".
-            cpActiveCards.Reset();
-
-            selectedCard = Player.NO_ACTION;
-
-            // Sub to the new bout's events.
-            game.CurrentBout.Report += PrepForTurn;
         }
     }
 }
