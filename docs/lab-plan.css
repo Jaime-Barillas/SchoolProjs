@@ -1,0 +1,107 @@
+/* Style sheet for Markdeep. */
+
+body {
+    background-color: #eee;
+    font: 14px  sans-serif;
+    max-width: 640px;
+}
+
+.md div.title {
+  font: 26px Tahoma, sans-serif;
+  padding: 170px 0px 12px;
+}
+
+@media print {
+  body {
+    max-width: 64%;
+  }
+
+  .md div.title {
+      padding-top: 150px;
+  }
+}
+
+.md div.subtitle {
+  font-size: 17px;
+  padding-bottom: 12px;
+}
+
+.md h1, .md div.nonumberh1 {
+  border-bottom: 2px solid black;
+  color: #000;
+  font: 20px Tahoma, sans-serif;
+}
+
+.md h2, .md div.nonumberh2 {
+  border-bottom: 2px dashed black;
+  color: #000;
+  font: 17px Tahoma, sans-serif;
+}
+
+.md sup {
+  position: relative;
+  top: -0.4em;
+  vertical-align: baseline;
+}
+
+.md sub { 
+  top: 0.4em;
+}
+
+.md h3, .md h4, .md h5, .md h6, .md div.nonumberh3, .md div.nonumberh4, .md div.nonumberh5, .md div.nonumberh6 {
+  border: none;
+  color: #000;
+  font-family: 16px Tahoma, sans-serif;
+}
+
+.md div.imagecaption {
+  font-style: normal;
+}
+
+.md hr {
+  border: none;
+  border-top: 0.1pt solid #777;
+  height: 0px;
+}
+
+.md div.endnote {
+   font-size: 13px;
+}
+
+.md div.bib b {
+  font-weight: normal;
+}
+
+.md code {
+    font: 90% monospace;
+}
+
+.md svg.diagram {
+    zoom: 80%;
+}
+
+
+.md ul li.asterisk:before, .md ul li.minus:before {
+    content: "-";
+    display: block;
+    float: left;
+    width: 1.2em;
+    margin-left: -18px;
+}
+
+.md ul li.asterisk, .md ul li.minus {
+    list-style-type: none;
+    margin-bottom: 10px;
+    padding-left: 4pt;
+}
+
+.md ol li {
+    margin-bottom: 10px;
+    padding-left: 4pt;
+}
+
+/* Markdeep table headers */
+.md .table .table th {
+    background-color: #222;
+    color: #eee;
+}

@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DurakGame.AIPlayer">
+    <Position X="2.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABIAAAEQAAACAAAAAABAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>AIPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DurakGame.Bout">
+    <Position X="7.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoACAEAAAQAQQAAIACAEQAgAAhAAAAAgAAAAACAJAA=</HashCode>
+      <FileName>Bout.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Game" />
+      <Property Name="Attacker" />
+      <Property Name="Defender" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DurakGame.Card">
+    <Position X="12" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAABAAAAAAAAEAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Card.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Rank" />
+      <Property Name="Suit" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DurakGame.Deck">
+    <Position X="9.75" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="DurakGame.Deck.Preset">
+        <TypeIdentifier>
+          <NewMemberFileName>Deck.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAggAAAAgAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Deck.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="cards" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DurakGame.Game">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAIIDAAQAAEAAAAAAAEAAAABAgAgAAAAAIAAAAMAAQA=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Talon" />
+      <Property Name="CurrentBout" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Players" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DurakGame.GameActionEventArgs">
+    <Position X="2.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>GameActionEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DurakGame.GameLogEventArgs">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>GameLogEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DurakGame.HumanPlayer">
+    <Position X="2.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAACAAAAAAAAAAAI=</HashCode>
+      <FileName>HumanPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DurakGame.Player">
+    <Position X="4.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAACIAACAAYACGMAAABCQAAIEAAAAADAgAkACAREA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Hand" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DurakGame.SimpleAIPlayer">
+    <Position X="0.75" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="difficulty" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAQAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SimpleAIPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DurakGame.Talon">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgBAAAAAAAAAggAAAAIAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Talon.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="deck" />
+      <Property Name="Trump" />
+    </ShowAsAssociation>
+  </Class>
+  <Enum Name="DurakGame.Rank">
+    <Position X="14" Y="2.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAggAAAEAAEAIAAAAAFBAAAAAgAAAgAAEE=</HashCode>
+      <FileName>Rank.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DurakGame.Suit">
+    <Position X="14" Y="0.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAEAAAAAAAAABAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Suit.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
